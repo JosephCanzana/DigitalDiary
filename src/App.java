@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class App extends JFrame{
 
-    // JPanel Variable
+    // JFrame main panels
     JPanel navigationBar;
     JPanel mainContentPanel;
     JPanel footerPanel;
@@ -32,14 +34,8 @@ public class App extends JFrame{
     Color textPrimary = new Color(0xFF1C1C1E);
     Color textSecondary = new Color(0xFF8E8E93);
 
-    // Accent Colors
-    Color actionPrimary = new Color(0xFF007AFF);
-    Color alertError = new Color(0xFFFF3B30);
-    Color feedbackSuccess = new Color(0xFF34C759);
 
-    // Borders / Dividers
-    Color borderLight = new Color(0xFFE5E5EA);
-
+    // MAIN SETUP
     App(){
         // Basic setup the JFrame
         setSize(850,600);
@@ -85,7 +81,8 @@ public class App extends JFrame{
         setVisible(true); // Set the Frame visible
     }
 
-    // Navigation Bar Panel
+
+    // NAVIGATION BAR TOP PANEL SETUP
     private void setNavigationBar(){
         // Set navigation bar layout to FlowLayout (left aligned)
         navigationBar.setLayout(new FlowLayout(FlowLayout.LEFT, 22, 10));
@@ -96,9 +93,9 @@ public class App extends JFrame{
         title.setFont(new Font("Segoe UI", Font.BOLD, 30));
 
         // Create the buttons
-        btnHome = createNavButton("Home", Color.BLUE);
-        btnJournal = createNavButton("Journal", Color.BLUE);
-        btnInspire = createNavButton("Inspire", Color.BLUE);
+        btnHome = createNavButton("Home", Color.DARK_GRAY);
+        btnJournal = createNavButton("Journal", Color.DARK_GRAY);
+        btnInspire = createNavButton("Inspire", Color.DARK_GRAY);
         btnAbout = createNavButton("About", Color.GRAY);
         btnLogout = createNavButton("Logout", Color.RED);
 
@@ -119,7 +116,8 @@ public class App extends JFrame{
 
     }
 
-    // Buttons
+
+    // BUTTON ACTIONS
     private void btnHomeAction(){
         btnHome.addActionListener(e ->{
             CardLayout cl = (CardLayout) mainContentPanel.getLayout();
@@ -160,7 +158,8 @@ public class App extends JFrame{
         });
     }
 
-    // Layout
+
+    // LAYOUT PANEL DESIGN
     private void homeLayout(){
         // Create a JPanel for the home screen layout
         plHome = new JPanel();
@@ -217,11 +216,11 @@ public class App extends JFrame{
 
         JLabel lbLogout = setPageTitle("Logout Page");
         plLogout.add(lbLogout, BorderLayout.NORTH);
-
         mainContentPanel.add(plLogout, "LOGOUT");
     }
 
-    // Helper function
+
+    // HELPER'S METHOD
     private JLabel setPageTitle(String title){
         // Create the label for the home screen
         JLabel label = new JLabel(title, JLabel.CENTER);
@@ -238,12 +237,30 @@ public class App extends JFrame{
         button.setForeground(fgColor);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         button.setBorder(null);
+
+        // In button hover
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
+                button.setFont(new Font("Segoe UI", Font.BOLD, 20));
+                if(text == "Logout"){
+                    button.setForeground(Color.RED);
+                } else {
+                    button.setForeground(Color.BLUE);
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
+                button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+                button.setForeground(fgColor);
+            }
+        });
         return button;
     }
 
-    public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(App::new);
-    }
 }
 
 
