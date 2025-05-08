@@ -36,7 +36,7 @@ public class Login extends JFrame {
     JPasswordField pwdConfirm;
 
     // Background colors
-    Color bgMain = new Color(0xFFFFFFFF);
+    Color bgMain = Color.WHITE;
     Color bgSecondary = new Color(0xFFF2F2F7);
     Color bgTertiary = new Color(0xFFE5E5EA);
 
@@ -77,7 +77,7 @@ public class Login extends JFrame {
         add(loginMainForm, BorderLayout.CENTER);
         add(loginFooterForm, BorderLayout.SOUTH);
 
-        // Different main page layout
+        // Different main page layout (card layout)
         loginLayout();
         registerLayout();
 
@@ -182,7 +182,7 @@ public class Login extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        lbUsername = createContentLabel("Username");
+        lbUsername = createContentLabel("Username:");
         plLogin.add(lbUsername, gbc);
 
         // Username textbox
@@ -196,7 +196,7 @@ public class Login extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
-        lbPassword = createContentLabel("Password");
+        lbPassword = createContentLabel("Password:");
         plLogin.add(lbPassword, gbc);
 
         // Password input field
@@ -307,7 +307,7 @@ public class Login extends JFrame {
             public void mouseEntered(MouseEvent e) {
                 button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
                 button.setFont(new Font("Segoe UI", Font.BOLD, 20));
-                button.setForeground(Color.BLUE);
+                button.setForeground(new Color(0x006400));
 
             }
 
@@ -359,6 +359,8 @@ public class Login extends JFrame {
     }
 
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(Login::new);
+        java.awt.EventQueue.invokeLater(()->{
+            new Login();
+        });
     }
 }
