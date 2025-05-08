@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class Login extends JFrame {
     // JFrame main panels
@@ -42,7 +43,12 @@ public class Login extends JFrame {
 
     // Text Colors
     Color textPrimary = new Color(0xFF1C1C1E);
-    Color textSecondary = new Color(0xFF8E8E93);
+
+    // Temporary storing system (since database is not allowed)
+    public static ArrayList<String> USERS = new ArrayList<>();
+    public static ArrayList<String> PASSWORD = new ArrayList<>();
+    public static int indexID;
+    public static String currentUser;
 
 
     // MAIN SETUP
@@ -109,7 +115,6 @@ public class Login extends JFrame {
         // Calling button action functionality
         btnLoginNavAction();
         btnRegisterNavAction();
-        btnLoginAction();
 
         // Add title and buttons directly to the navigation bar
         loginNavBar.add(title);
@@ -117,6 +122,128 @@ public class Login extends JFrame {
         loginNavBar.add(btnRegisterNav);
 
     }
+
+    // CONTENT PANEL SETUP
+    private void loginLayout() {
+        // Create main login panel with GridLayout
+        plLogin = new JPanel(new GridBagLayout());
+        plLogin.setBackground(bgMain);
+
+        // GBC is basically like a cursor to change the position,size,anchor, and padding
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Page title
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.insets = new Insets(5,0,5,0); //top,left, bottom, right
+        JLabel lbLoginPage = setPageTitle("Login Page");
+        plLogin.add(lbLoginPage, gbc);
+
+        // Username label
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        lbUsername = createContentLabel("Username:");
+        plLogin.add(lbUsername, gbc);
+
+        // Username textbox
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        txtUsername = createContentTextField();
+        plLogin.add(txtUsername,gbc);
+
+        // Password Label
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        lbPassword = createContentLabel("Password:");
+        plLogin.add(lbPassword, gbc);
+
+        // Password input field
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        pwdLogin = createContentPasswordField();
+        plLogin.add(pwdLogin, gbc);
+
+        //Login Button
+        gbc.gridy = 5;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.NORTH;
+        btnLogin = createConfirmButton("Login");
+        plLogin.add(btnLogin,gbc);
+
+        // action for submitting
+        btnLoginAction();
+
+        // Add login panel to CardLayout container
+        loginMainForm.add(plLogin, "LOGIN");
+    }
+
+
+    // Register layout
+    private void registerLayout(){
+        // Create a JPanel for the register screen layout
+        plRegister = new JPanel();
+        plRegister.setLayout(new GridBagLayout());
+        plRegister.setBackground(bgMain);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Setting and adding buttons, text field, and password field
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.insets = new Insets(3,0,3,0); // top,left, bottom, right
+        JLabel lblRegisterPage = setPageTitle("Register Page");
+        plRegister.add(lblRegisterPage, gbc);
+
+        // Username label
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        lbUsernameRegister = createContentLabel("Username: ");
+        plRegister.add(lbUsernameRegister, gbc);
+
+        // Username text field
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        txtUsernameRegister = createContentTextField();
+        plRegister.add(txtUsernameRegister, gbc);
+
+        // Password Label
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        lbPasswordRegister = createContentLabel("Password: ");
+        plRegister.add(lbPasswordRegister, gbc);
+
+        // Register password field
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        pwdRegister = createContentPasswordField();
+        plRegister.add(pwdRegister, gbc);
+
+        // Confirm label
+        gbc.gridy = 5;
+        gbc.anchor = GridBagConstraints.WEST;
+        lbConfirm = createContentLabel("Confirm Password: ");
+        plRegister.add(lbConfirm, gbc);
+
+        // Confirm password field
+        gbc.gridy = 6;
+        gbc.anchor = GridBagConstraints.WEST;
+        pwdConfirm = createContentPasswordField();
+        plRegister.add(pwdConfirm, gbc);
+
+        // Register button
+        gbc.gridy = 7;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.NORTH;
+        btnRegister = createConfirmButton("Register");
+        plRegister.add(btnRegister, gbc);
+
+        // Action Button for submitting
+        btnRegisterAction();
+
+        loginMainForm.add(plRegister, "REGISTER");
+    }
+
 
 
     // BUTTON ACTIONS
@@ -139,157 +266,82 @@ public class Login extends JFrame {
     private void btnLoginAction(){
         btnLogin.addActionListener(e -> {
 
-            String username = txtUsername.getText();
-            char[] passwordChar = pwdLogin.getPassword();
+            String username = txtUsername.getText().trim(); // We used trim to remove white space at the end
+            String password = new String(pwdLogin.getPassword());
 
-            if (passwordChar.length < 8){
-                JOptionPane.showMessageDialog(null, "Password must be at least 8 characters!", "Oops", JOptionPane.WARNING_MESSAGE);
+            // Finding if user exist
+            int index = 0; // for counting what index is target username for password
+            boolean foundUser = false;
+            for (String user : USERS){
+                if(username.equals(user)){
+                    foundUser = true;
+                    break;
+                }
+                index++;
+            }
+            // Checker
+            if (!foundUser) {
+                JOptionPane.showMessageDialog(this, "Can't find the username", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }else if (password.length() < 8){
+                JOptionPane.showMessageDialog(null, "Invalid password length", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else if(!password.equals(PASSWORD.get(index))){
+                JOptionPane.showMessageDialog(this, "Wrong password", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            String password = new String(passwordChar);
 
-            String tmpUsername = "admin";
-            String tmpPassword = "01234567";
-            if(!tmpUsername.equals(username) || !tmpPassword.equals(password)){
-                JOptionPane.showMessageDialog(null, "Password or username invalid", "Oops", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+            // assigning what user index is selected
+            indexID = index;
+            currentUser = USERS.get(index);
 
-            java.awt.EventQueue.invokeLater(App::new);
+            EventQueue.invokeLater(()->{
+                new App();
+            });
             dispose();
         });
     }
 
+    private void btnRegisterAction(){
+        btnRegister.addActionListener(e -> {
+            // Getting data from the text box after pressed
+            String username = txtUsernameRegister.getText().trim(); // used trim to remove whitespace
+            String password = new String(pwdRegister.getPassword());
+            String confirmPassword = new String(pwdConfirm.getPassword());
 
-    // CONTENT PANEL SETUP
-    private void loginLayout() {
-        // Create main login panel with GridLayout
-        plLogin = new JPanel(new GridBagLayout());
-        plLogin.setBackground(bgMain);
-
-        // GBC is basically like a cursor to change the position,size,anchor, and padding
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        // Page title
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.insets = new Insets(5,0,5,0); //top,left, bottom, right
-        JLabel lbLoginPage = setPageTitle("Login Page");
-        plLogin.add(lbLoginPage, gbc);
-
-        // Username label
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        lbUsername = createContentLabel("Username:");
-        plLogin.add(lbUsername, gbc);
-
-        // Username textbox
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        txtUsername = createContentTextField();
-        plLogin.add(txtUsername,gbc);
-
-        // Password Label
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        lbPassword = createContentLabel("Password:");
-        plLogin.add(lbPassword, gbc);
-
-        // Password input field
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.WEST;
-        pwdLogin = createContentPasswordField();
-        plLogin.add(pwdLogin, gbc);
-
-        //Login Button
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.weighty = 1;
-        gbc.anchor = GridBagConstraints.NORTH;
-        btnLogin = createConfirmButton("Login");
-        plLogin.add(btnLogin,gbc);
+            // Requirement checking
+            if (password.length() < 8){
+                JOptionPane.showMessageDialog(this, "Password character length should be equal or more than 8", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }else if (!password.equals(confirmPassword)){
+                JOptionPane.showMessageDialog(null, "Your password and confirm password is not same", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
 
-        // Add login panel to CardLayout container
-        loginMainForm.add(plLogin, "LOGIN");
+            for (String user : USERS){
+                if (username.equals(user)){
+                    JOptionPane.showMessageDialog(null, "The username already exist", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+
+
+            USERS.add(username);
+            PASSWORD.add(password);
+
+            // Direct the user to the login form
+            CardLayout cl = (CardLayout) loginMainForm.getLayout();
+            cl.show(loginMainForm, "LOGIN");
+
+            // for developing purposes
+
+            System.out.println(USERS);
+            System.out.println(PASSWORD);
+
+
+        });
     }
-
-
-    // Register layout
-    private void registerLayout(){
-        // Create a JPanel for the register screen layout
-        plRegister = new JPanel();
-        plRegister.setLayout(new GridBagLayout());
-        plRegister.setBackground(bgMain);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        // Setting and adding buttons, text field, and password field
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.insets = new Insets(3,0,3,0); //top,left, bottom, right
-        JLabel lblRegisterPage = setPageTitle("Register Page");
-        plRegister.add(lblRegisterPage, gbc);
-
-        // Username label
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        lbUsernameRegister = createContentLabel("Username: ");
-        plRegister.add(lbUsernameRegister, gbc);
-
-        // Username text field
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        txtUsernameRegister = createContentTextField();
-        plRegister.add(txtUsernameRegister, gbc);
-
-        // Password Label
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        lbPasswordRegister = createContentLabel("Password: ");
-        plRegister.add(lbPasswordRegister, gbc);
-
-        // Register password field
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.WEST;
-        pwdRegister = createContentPasswordField();
-        plRegister.add(pwdRegister, gbc);
-
-        // Confirm label
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.anchor = GridBagConstraints.WEST;
-        lbConfirm = createContentLabel("Confirm Password: ");
-        plRegister.add(lbConfirm, gbc);
-
-        // Confirm password field
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        pwdConfirm = createContentPasswordField();
-        plRegister.add(pwdConfirm, gbc);
-
-        // Register button
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        gbc.weighty = 1;
-        gbc.anchor = GridBagConstraints.NORTH;
-        btnRegister = createConfirmButton("Register");
-        plRegister.add(btnRegister, gbc);
-
-        loginMainForm.add(plRegister, "REGISTER");
-    }
-
 
     // HELPERS
     private JButton createNavButton(String text) {
@@ -303,15 +355,12 @@ public class Login extends JFrame {
 
         // In button hover
         button.addMouseListener(new MouseAdapter() {
-            @Override
             public void mouseEntered(MouseEvent e) {
                 button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
                 button.setFont(new Font("Segoe UI", Font.BOLD, 20));
                 button.setForeground(new Color(0x006400));
 
             }
-
-            @Override
             public void mouseExited(MouseEvent e) {
                 button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
                 button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -359,7 +408,7 @@ public class Login extends JFrame {
     }
 
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(()->{
+        EventQueue.invokeLater(()->{
             new Login();
         });
     }

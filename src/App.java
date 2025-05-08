@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class App extends JFrame{
@@ -40,6 +41,7 @@ public class App extends JFrame{
     Color textPrimary = new Color(0xFF1C1C1E);
     Color textSecondary = new Color(0x333333);
 
+
     // Arrays that would be in use globally (Sample data)
     String[] titles = {
             "2025-05-07",
@@ -61,6 +63,10 @@ public class App extends JFrame{
             "This is IP"
     };
 
+
+    // User's data
+    int userID = Login.indexID;
+    String User = Login.currentUser;
 
     // MAIN SETUP
     App(){
@@ -153,7 +159,7 @@ public class App extends JFrame{
 
         // Username
         gbc.gridy = 0;
-        JLabel lbUsername = new JLabel("Welcome, username");
+        JLabel lbUsername = new JLabel("Welcome, " + User);
         lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         lbUsername.setForeground(Color.DARK_GRAY);
         plHome.add(lbUsername, gbc);
@@ -369,7 +375,9 @@ public class App extends JFrame{
         btnLogout.addActionListener(e -> {
             int answer = JOptionPane.showConfirmDialog(null,"Are you sure?", "Logout", JOptionPane.OK_CANCEL_OPTION);
             if(answer == 0){
-                java.awt.EventQueue.invokeLater(Login::new);
+                EventQueue.invokeLater(()->{
+                    new Login();
+                });
                 dispose();
             }
         });
