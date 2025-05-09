@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class App extends JFrame{
@@ -56,12 +57,41 @@ public class App extends JFrame{
     };
 
     // Quotes
-    //Sample
     String[] homeQuote = {
-            "This is cs50",
-            "This is HCC",
-            "This is IP"
+            "God loved the world and gave His only Son, so whoever believes won't perish but have eternal life. - John 3:16",
+            "The world's beauty is in the eyes of it's beholder - Sachi",
+            "I can do all things through Christ who strengthens me. - Philippians 4:13",
+            "Trust the Lord with all your heart, submit to Him, and He will guide your paths. Proverbs 3:5-6",
+            "I know the plans I have for you—plans to prosper you and give you hope and a future. - Jeremiah 29:11",
+            "You lose because you only consider victory - Miyagi",
+
     };
+
+    String[] qtGrateful = {
+            "Give thanks in all circumstances; for this is God's will for you in Christ Jesus.\n– 1 Thessalonians 5:18",
+    };
+
+    String[] qtCalm = {
+            "Trust in the Lord with all your heart and lean not on your own understanding.\n– Proverbs 3:5",
+    };
+
+    String[] qtHopeful = {
+            "For I know the plans I have for you... plans to give you hope and a future.\n– Jeremiah 29:11",
+
+    };
+
+    String[] qtOverthinking = {
+            "It’s not about winning or losing. It’s about the effort you put in.\n– Ippo Makunouchi, Hajime no Ippo",
+    };
+
+    String[] qtDown = {
+            "Everything negative—pressure, challenges—is all an opportunity for me to rise.\n– Kobe Bryant",
+    };
+
+    String[] qtOverwhelmed = {
+            "Great things come from hard work and perseverance. No excuses.\n– Kobe Bryant",
+    };
+
 
 
     // User's data
@@ -71,8 +101,8 @@ public class App extends JFrame{
     // MAIN SETUP
     App(){
         // Basic setup the JFrame
-        setSize(850,600);
-        setMinimumSize(new Dimension(850,600));
+        setSize(1150,710);
+        setMinimumSize(new Dimension(1150,710));
         getContentPane().setBackground(bgMain);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("ReflectNote: Your mind, beautifully organized.");
@@ -157,17 +187,21 @@ public class App extends JFrame{
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
+        // Window size
+        int width = plHome.getWidth();
+        int height = plHome.getHeight();
+
         // Username
         gbc.gridy = 0;
         JLabel lbUsername = new JLabel("Welcome, " + User);
-        lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         lbUsername.setForeground(Color.DARK_GRAY);
         plHome.add(lbUsername, gbc);
 
         // Title
         gbc.gridy = 1;
         JLabel lbHome = new JLabel("ReflectNote");
-        lbHome.setFont(new Font("Segoe UI", Font.BOLD, 60));
+        lbHome.setFont(new Font("Segoe UI", Font.BOLD, 75));
         lbHome.setForeground(new Color(30, 30, 30));
         plHome.add(lbHome, gbc);
 
@@ -180,6 +214,7 @@ public class App extends JFrame{
 
         // Quote
         gbc.gridy = 3;
+        // For selecting random index for quote
         Random random = new Random();
         int randomQuoteInx = random.nextInt(homeQuote.length);
         JLabel lbRandomQuote = new JLabel("\"" + homeQuote[randomQuoteInx] + "\"");
@@ -237,7 +272,7 @@ public class App extends JFrame{
         plJournal = new JPanel(new GridLayout(0,2,5,5));
         plJournal.setBackground(bgMain);
 
-        // === Right side of the gird ===
+        // Right side of the gird
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(bgMain);
         rightPanel.setBorder(BorderFactory.createLineBorder(new Color(0xDCDCDC), 1));
@@ -265,7 +300,7 @@ public class App extends JFrame{
 
         rightPanel.add(buttonGrid, BorderLayout.SOUTH);
 
-        // === left side of the grid ===
+        // left side of the grid
         txtContent = new JTextArea();
         txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         txtContent.setBackground(bgMain);
@@ -298,28 +333,30 @@ public class App extends JFrame{
         JLabel lbInspire = setPageTitle("Inspire Page");
 
         // Buttons
-        JButton happy = createMoodButton("Happy", new Color(0xFFE066));
-        JButton sad = createMoodButton("Sad", new Color(0xA3C4F3));
-        JButton angry = createMoodButton("Angry", new Color(0xFF6B6B));
-        JButton tired = createMoodButton("Tired", new Color(0xC0C0C0));
-        JButton anxious = createMoodButton("Anxious", new Color(0xB19CD9));
-        JButton motivated = createMoodButton("Motivated", new Color(0xA8E6CF));
+        JButton grateful = createMoodButton("Grateful", new Color(0xFFD97B));
+        JButton calm = createMoodButton("Calm", new Color(0xA3D9FF));
+        JButton hopeful = createMoodButton("Hopeful", new Color(0xFF8A80));
+        JButton overthinking = createMoodButton("Overthinking", new Color(0xC2C2C2));
+        JButton down = createMoodButton("Down", new Color(0xB39DDB));
+        JButton overwhelmed = createMoodButton("Overwhelmed", new Color(0xAEDFD9));
+
 
         // Add buttons to the mood buttons panel
-        plMoodButtons.add(happy);
-        plMoodButtons.add(sad);
-        plMoodButtons.add(angry);
-        plMoodButtons.add(tired);
-        plMoodButtons.add(anxious);
-        plMoodButtons.add(motivated);
+        plMoodButtons.add(calm);
+        plMoodButtons.add(grateful);
+        plMoodButtons.add(hopeful);
+        plMoodButtons.add(overthinking);
+        plMoodButtons.add(down);
+        plMoodButtons.add(overwhelmed);
 
         //Actions
-        btnMoodQuotesAction(happy);
-        btnMoodQuotesAction(sad);
-        btnMoodQuotesAction(angry);
-        btnMoodQuotesAction(tired);
-        btnMoodQuotesAction(anxious);
-        btnMoodQuotesAction(motivated);
+        // To not declare every buttons action and make it reusable
+        btnMoodQuotesAction(calm);
+        btnMoodQuotesAction(grateful);
+        btnMoodQuotesAction(overthinking);
+        btnMoodQuotesAction(overwhelmed);
+        btnMoodQuotesAction(down);
+        btnMoodQuotesAction(hopeful);
 
         // Add mood buttons panel and title to the plInspire
         plInspire.add(lbInspire, BorderLayout.NORTH);
@@ -327,6 +364,78 @@ public class App extends JFrame{
 
         mainContentPanel.add(plInspire, "INSPIRE");
     }
+
+    private void quoteCardDisplay(String mood) {
+        JPanel quoteCard = new JPanel(new GridBagLayout());
+        quoteCard.setBackground(bgMain);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Determine quote based on mood
+        String quote = "";
+        Random random = new Random();
+        switch (mood) {
+            case "Grateful":
+                quote = qtGrateful[random.nextInt(qtGrateful.length)];
+                break;
+            case "Calm":
+                quote = qtCalm[random.nextInt(qtCalm.length)];
+                break;
+            case "Hopeful":
+                quote = qtHopeful[random.nextInt(qtHopeful.length)];
+                break;
+            case "Down":
+                quote = qtDown[random.nextInt(qtDown.length)];
+                break;
+            case "Overthinking":
+                quote = qtOverthinking[random.nextInt(qtOverthinking.length)];
+                break;
+            case "Overwhelmed":
+                quote = qtOverwhelmed[random.nextInt(qtOverwhelmed.length)];
+                break;
+        }
+
+        JLabel qtTitle = setPageTitle(mood);
+        quoteCard.add(qtTitle, gbc);
+
+        gbc.gridy = 1;
+        // Quote label
+        JTextArea quoteArea = new JTextArea(quote);
+        quoteArea.setFont(new Font("Segoi UI", Font.PLAIN, 30));
+        quoteArea.setBackground(bgMain);
+        quoteArea.setPreferredSize(new Dimension(1000, 150));
+        quoteArea.setLineWrap(true);
+        quoteArea.setWrapStyleWord(true);
+        quoteArea.setEditable(false);
+
+        quoteCard.add(quoteArea, gbc);
+
+        // Your button logic here (already existing)
+        JButton backButton = createJornalOptionButton("Back");
+        backButton.setForeground(new Color(0x007AF));
+        backButton.setBorder(null);
+        // Add action listener for the back button if needed
+        backButton.addActionListener(e -> {
+            CardLayout cl = (CardLayout) mainContentPanel.getLayout();
+            cl.show(mainContentPanel, "INSPIRE");
+        });
+
+        // Add back button below quote area
+        gbc.gridy = 2;
+        quoteCard.add(backButton, gbc);
+
+        // Add this quoteCard JPanel to mainContentPanel
+        mainContentPanel.add(quoteCard, "QUOTE");
+
+        // Show the QUOTE panel
+        CardLayout cl = (CardLayout) mainContentPanel.getLayout();
+        cl.show(mainContentPanel, "QUOTE");
+    }
+
 
     private void aboutLayout(){
         // Create a JPanel for the about screen layout
@@ -411,20 +520,22 @@ public class App extends JFrame{
         });
     }
 
-    // INSPIRE BUTTONS
+    // === INSPIRE BUTTONS ===
     private void btnMoodQuotesAction(JButton button){
         button.addActionListener(e -> {
             String mood = button.getText();
-            JOptionPane.showMessageDialog(null, "You are " + mood, "TODO", JOptionPane.OK_OPTION);
+            quoteCardDisplay(mood);
         });
+        CardLayout cl = (CardLayout) mainContentPanel.getLayout();
+        cl.show(mainContentPanel, "QUOTE");
     }
 
     // HELPER'S METHOD
     private JLabel setPageTitle(String title){
         // Create the label for the home screen
         JLabel label = new JLabel(title, JLabel.CENTER);
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 30));
-        label.setForeground(textPrimary);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        label.setForeground(textSecondary);
         return label;
     }
 
@@ -460,7 +571,7 @@ public class App extends JFrame{
     // Inspire mood button aesthetics
     private JButton createMoodButton(String text, Color bgColor){
         JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        button.setFont(new Font("Segoe UI", Font.BOLD, 30));
         button.setBackground(bgColor);
         return button;
     }
@@ -468,7 +579,7 @@ public class App extends JFrame{
     // Journal options button
     private JButton createJornalOptionButton(String text){
         JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setFont(new Font("Segoe UI", Font.BOLD, 20));
         button.setBackground(bgMain);
         button.setOpaque(false);
         return button;
@@ -487,6 +598,9 @@ public class App extends JFrame{
         });
     }
 
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(()->{
+            new App();
+        });
+    }
 }
-
-
