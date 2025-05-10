@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class Login extends JFrame {
@@ -82,6 +81,12 @@ public class Login extends JFrame {
         add(loginNavBar, BorderLayout.NORTH);
         add(loginMainForm, BorderLayout.CENTER);
         add(loginFooterForm, BorderLayout.SOUTH);
+
+        // admin accounts
+        USERS.add("Admin");
+        PASSWORD.add("12345678");
+        USERS.add("Canzana");
+        PASSWORD.add("12345678");
 
         // Different main page layout (card layout)
         loginLayout();
@@ -298,6 +303,7 @@ public class Login extends JFrame {
             EventQueue.invokeLater(()->{
                 new App();
             });
+
             dispose();
         });
     }
@@ -335,9 +341,8 @@ public class Login extends JFrame {
             cl.show(loginMainForm, "LOGIN");
 
             // for developing purposes
-
-            System.out.println(USERS);
-            System.out.println(PASSWORD);
+//            System.out.println(USERS);
+//            System.out.println(PASSWORD);
 
 
         });
@@ -405,11 +410,5 @@ public class Login extends JFrame {
         password.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         password.setPreferredSize(new Dimension(500,50));
         return password;
-    }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(()->{
-            new Login();
-        });
     }
 }

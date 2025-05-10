@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 import java.awt.event.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 public class App extends JFrame{
 
@@ -42,19 +40,14 @@ public class App extends JFrame{
     Color textPrimary = new Color(0xFF1C1C1E);
     Color textSecondary = new Color(0x333333);
 
+    // Current date
+    LocalDate currentDate = LocalDate.now();
 
-    // Arrays that would be in use globally (Sample data)
-    String[] titles = {
-            "2025-05-07",
-            "2025-05-06",
-            "2025-05-05"
-    };
-
-    String[] contents = {
-            "Today I learned how to connect a JList to a JTextArea using arrays.",
-            "Started designing the journal UI with simple components.",
-            "Practiced using arrays and selection listeners in Java Swing."
-    };
+    // User's data
+    int lsUserID = Login.indexID;
+    String lsUser = Login.currentUser;
+    public static ArrayList<ArrayList<String>> lsJournalContents = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> lsJournalTitles = new ArrayList<>();
 
     // Quotes
     String[] homeQuote = {
@@ -69,34 +62,34 @@ public class App extends JFrame{
 
     String[] qtGrateful = {
             "Give thanks in all circumstances; for this is God's will for you in Christ Jesus.\n– 1 Thessalonians 5:18",
+            "“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.” \n— Albert Einstein"
     };
 
     String[] qtCalm = {
             "Trust in the Lord with all your heart and lean not on your own understanding.\n– Proverbs 3:5",
+            "“Calmness is the cradle of power.” — Josiah Gilbert Holland"
     };
 
     String[] qtHopeful = {
+            "“There’s no reason to look back when you have so much to look forward to.” — Kobe Bryant",
             "For I know the plans I have for you... plans to give you hope and a future.\n– Jeremiah 29:11",
 
     };
 
     String[] qtOverthinking = {
-            "It’s not about winning or losing. It’s about the effort you put in.\n– Ippo Makunouchi, Hajime no Ippo",
+            "“Stop worrying about what you can’t control. Shift your energy to what you can create.” \n— Roy T. Bennett",
     };
 
     String[] qtDown = {
             "Everything negative—pressure, challenges—is all an opportunity for me to rise.\n– Kobe Bryant",
+            "“The Lord is near to the brokenhearted and saves the crushed in spirit.” \n — Psalm 34:18"
     };
 
     String[] qtOverwhelmed = {
             "Great things come from hard work and perseverance. No excuses.\n– Kobe Bryant",
+            "“You don’t rise to the level of your expectations, you fall to the level of your training.” — Coach Kamogawa"
     };
 
-
-
-    // User's data
-    int userID = Login.indexID;
-    String User = Login.currentUser;
 
     // MAIN SETUP
     App(){
@@ -129,6 +122,14 @@ public class App extends JFrame{
         add(navigationBar, BorderLayout.NORTH);
         add(mainContentPanel, BorderLayout.CENTER);
         add(footerPanel, BorderLayout.SOUTH);
+
+        // Set Journal Entries
+        for(int users = Login.USERS.size(), entries = lsJournalContents.size(); entries < users; entries++){
+            lsJournalContents.add(new ArrayList<>());
+            lsJournalTitles.add(new ArrayList<>());
+            // For debugging
+            //System.out.println(lsJournalContents);
+        }
 
         // Initialize the panels for main content panel
         homeLayout();
@@ -187,13 +188,9 @@ public class App extends JFrame{
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
-        // Window size
-        int width = plHome.getWidth();
-        int height = plHome.getHeight();
-
         // Username
         gbc.gridy = 0;
-        JLabel lbUsername = new JLabel("Welcome, " + User);
+        JLabel lbUsername = new JLabel("Welcome, " + lsUser);
         lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         lbUsername.setForeground(Color.DARK_GRAY);
         plHome.add(lbUsername, gbc);
@@ -224,7 +221,6 @@ public class App extends JFrame{
 
         // Date
         gbc.gridy = 4;
-        LocalDate currentDate = LocalDate.now();
         JLabel lbDate = new JLabel(currentDate.toString());
         lbDate.setFont(new Font("Segoe UI", Font.PLAIN, 23));
         lbDate.setForeground(Color.BLUE);
@@ -272,7 +268,7 @@ public class App extends JFrame{
         plJournal = new JPanel(new GridLayout(0,2,5,5));
         plJournal.setBackground(bgMain);
 
-        // Right side of the gird
+        // RIGHT side of the gird
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(bgMain);
         rightPanel.setBorder(BorderFactory.createLineBorder(new Color(0xDCDCDC), 1));
@@ -282,7 +278,13 @@ public class App extends JFrame{
         rightPanel.add(lbJournal, BorderLayout.NORTH);
 
         // Center, The journal list entries
-        entryList = new JList<>(titles);
+
+        // Using default list model to make the list resizable and not static
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String title : lsJournalTitles.get(lsUserID)) {
+            listModel.addElement(title);
+        }
+        entryList = new JList<>(listModel);
         entryList.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 
         JScrollPane listScroll = new JScrollPane(entryList);
@@ -300,9 +302,9 @@ public class App extends JFrame{
 
         rightPanel.add(buttonGrid, BorderLayout.SOUTH);
 
-        // left side of the grid
+        // LEFT side of the grid
         txtContent = new JTextArea();
-        txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 22));
         txtContent.setBackground(bgMain);
         txtContent.setForeground(textSecondary);
         txtContent.setBorder(BorderFactory.createLineBorder(new Color(0xDCDCDC), 1));
@@ -497,26 +499,82 @@ public class App extends JFrame{
         entryList.addListSelectionListener(e -> {
             int index = entryList.getSelectedIndex();
             if (index >= 0) {
-                txtContent.setText(contents[index]);
+                txtContent.setText(lsJournalContents.get(lsUserID).get(index).trim());
             }
         });
     }
 
     private void btnNewJournalAction(){
         btnNew.addActionListener(e->{
-            JOptionPane.showMessageDialog(null, "This is new!", "TODO", JOptionPane.OK_OPTION);
+
+            String txtArea = "";
+            // check if text area is blank or there's a content
+            if (!txtContent.getText().isBlank() && !(entryList.getSelectedIndex() >= 0)){
+                // If theres a text in txtContent
+                int confirm = JOptionPane.showConfirmDialog(null, "Do you want to save the text in text area?", "Save text", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    txtArea = txtContent.getText();
+                }
+            }
+
+            // Input a title
+            String lsTitle = JOptionPane.showInputDialog(null, "Enter a Title:");
+            if (lsTitle == null){
+                return;
+            }
+            // Remove white space at the start and end
+            lsTitle = lsTitle.trim();
+            String newEntry;
+            if(lsTitle.isBlank()){
+                newEntry = "Date: " + currentDate;
+            }else {
+                newEntry = currentDate + " : " + lsTitle;
+            }
+
+            // Update temporary data
+            lsJournalContents.get(lsUserID).add(newEntry + "\n\n" + txtArea);
+            lsJournalTitles.get(lsUserID).add(newEntry);
+
+            // Append on the default list from JList in journalLayout
+            ((DefaultListModel<String>) entryList.getModel()).addElement(newEntry);
         });
     }
 
     private void btnUpdateJournalAction(){
         btnUpdate.addActionListener(e->{
-            JOptionPane.showMessageDialog(null, "This is to be update!", "TODO", JOptionPane.OK_OPTION);
+            // Entry selected
+            int index = entryList.getSelectedIndex();
+
+            if (index >= 0){
+                // Update the entry
+                lsJournalContents.get(lsUserID).set(index, txtContent.getText());
+                JOptionPane.showMessageDialog(null, "Journal entry updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No entry selected to Update.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
 
     private void btnDeleteJournalAction(){
         btnDelete.addActionListener(e->{
-            JOptionPane.showMessageDialog(null, "I still can't delete it!", "TODO", JOptionPane.OK_OPTION);
+            // Entry Selected
+            int index = entryList.getSelectedIndex();
+
+            if (index >= 0) {
+                // Ask for confirmation before deletion
+                int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this entry?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+
+                    // Using dynamic array wouldn't leave blank array slot
+                    lsJournalContents.get(lsUserID).remove(index);
+                    lsJournalTitles.get(lsUserID).remove(index);
+                    ((DefaultListModel<String>) entryList.getModel()).remove(index);
+                    txtContent.setText("");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No entry selected to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
 
@@ -597,5 +655,11 @@ public class App extends JFrame{
             }
         });
     }
+
+    // Go to login first
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            new Login();
+        });
     }
 }
