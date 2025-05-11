@@ -59,11 +59,15 @@ public class Login extends JFrame {
     // MAIN SETUP
     Login() {
         // Basic setup
-        setSize(850, 600);
-        setMinimumSize(new Dimension(850, 600));
+        setSize(1150,710);
+        setMinimumSize(new Dimension(1150,710));
         getContentPane().setBackground(bgMain);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Login");
+
+        // Icon Logo
+        ImageIcon icon = new ImageIcon("src/Icon/logo.png");
+        setIconImage(icon.getImage());
 
         // Set layout
         setLayout(new BorderLayout(5,5));
@@ -180,7 +184,6 @@ public class Login extends JFrame {
 
         //Login Button
         gbc.gridy = 5;
-        gbc.weighty = 1;
         gbc.anchor = GridBagConstraints.NORTH;
         btnLogin = createConfirmButton("Login");
         plLogin.add(btnLogin,gbc);
@@ -248,7 +251,6 @@ public class Login extends JFrame {
 
         // Register button
         gbc.gridy = 7;
-        gbc.weighty = 1;
         gbc.anchor = GridBagConstraints.NORTH;
         btnRegister = createConfirmButton("Register");
         plRegister.add(btnRegister, gbc);
@@ -396,14 +398,14 @@ public class Login extends JFrame {
     private JLabel setPageTitle(String title){
         // Create the label for the home screen
         JLabel label = new JLabel(title);
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        label.setFont(new Font("Segoe UI", Font.BOLD, 45));
         label.setForeground(textPrimary);
         return label;
     }
 
     private JLabel createContentLabel(String text){
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 42));
         return label;
     }
 
@@ -418,15 +420,15 @@ public class Login extends JFrame {
 
     private JTextField createContentTextField(){
         JTextField text = new JTextField();
-        text.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-        text.setPreferredSize(new Dimension(500,50));
+        text.setFont(new Font("Segoe UI", Font.PLAIN, 32));
+        text.setPreferredSize(new Dimension(600,65));
         return text;
     }
 
     private JPasswordField createContentPasswordField(){
         JPasswordField password = new JPasswordField();
-        password.setFont(new Font("Segoe UI", Font.PLAIN, 30));
-        password.setPreferredSize(new Dimension(500,50));
+        password.setFont(new Font("Segoe UI", Font.PLAIN, 32));
+        password.setPreferredSize(new Dimension(600,65));
         return password;
     }
 

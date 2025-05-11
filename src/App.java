@@ -30,7 +30,7 @@ public class App extends JFrame{
     JButton btnUpdate;
     JButton btnDelete;
     JButton btnEditTitle;
-    JTextField txtContentTitle;
+    JLabel txtContentTitle;
     JTextArea txtContent;
 
     // Base Backgrounds
@@ -103,6 +103,11 @@ public class App extends JFrame{
         getContentPane().setBackground(bgMain);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("ReflectNote: Your mind, beautifully organized.");
+
+        // App logo
+        ImageIcon icon = new ImageIcon("src/Icon/logo.png");
+        Image scaledImage = icon.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+        setIconImage(scaledImage);
 
         // Set the layout to border type with gap
         setLayout(new BorderLayout(5,5));
@@ -264,57 +269,48 @@ public class App extends JFrame{
         plJournal = new JPanel(new GridLayout(0,2,5,5));
         plJournal.setBackground(bgMain);
 
-        // RIGHT side of the gird
-        JPanel rightPanel = new JPanel(new BorderLayout(5,3));
-        rightPanel.setBackground(bgMain);
+        // LEFT side of the gird
+        JPanel leftPanel = new JPanel(new BorderLayout(5,3));
+        leftPanel.setBackground(bgMain);
 
         // Top border layout
         JLabel lbJournal = setPageTitle("Journal Page");
-        rightPanel.add(lbJournal, BorderLayout.NORTH);
+        leftPanel.add(lbJournal, BorderLayout.NORTH);
 
         // Center, The journal list entries
-
         // Using default list model to make the list resizable and not static
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (int i = 0, listLength = lsJournalTitles.get(sessionID).size(); i < listLength; i++) {
+        int listLength = lsJournalTitles.get(sessionID).size();
+        for (int i = listLength - 1; i >= 0; i--) {
             listModel.addElement(lsJournalEntriesDate.get(sessionID).get(i) + ": " + lsJournalTitles.get(sessionID).get(i));
         }
         entryList = new JList<>(listModel);
         entryList.setFont(new Font("Segoe UI", Font.PLAIN, 22));
-
         JScrollPane listScroll = new JScrollPane(entryList);
         listScroll.setBorder(null);
-        rightPanel.add(listScroll, BorderLayout.CENTER);
+        leftPanel.add(listScroll, BorderLayout.CENTER);
 
         // Bottom panel, buttons
-        JPanel buttonGrid = new JPanel(new GridLayout(0,3,3,3));
+        JPanel buttonGrid = new JPanel(new GridLayout(0,4,3,3));
         btnNew = createJornalOptionButton("New");
+        btnEditTitle = createJornalOptionButton("Rename");
         btnUpdate = createJornalOptionButton("Update");
         btnDelete = createJornalOptionButton("Delete");
 
         buttonGrid.add(btnNew);
         buttonGrid.add(btnUpdate);
+        buttonGrid.add(btnEditTitle);
         buttonGrid.add(btnDelete);
 
-        rightPanel.add(buttonGrid, BorderLayout.SOUTH);
+        leftPanel.add(buttonGrid, BorderLayout.SOUTH);
 
-        // LEFT side of the grid
-        JPanel leftPanel = new JPanel(new BorderLayout());
+        // RIGHT side of the grid
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBackground(bgMain);
 
-        JPanel plTitle = new JPanel(new FlowLayout());
-        plTitle.setBackground(bgMain);
-
-        txtContentTitle = new JTextField();
-        txtContentTitle.setPreferredSize(new Dimension(450,50));
-        txtContentTitle.setFont(new Font("Segoi UI", Font.BOLD, 30));
-        txtContentTitle.setBorder(null);
-        txtContentTitle.setEditable(false);
-
-        btnEditTitle = new JButton("Rename");
-
-        plTitle.add(txtContentTitle);
-        plTitle.add(btnEditTitle);
-
+        // title of the content
+        txtContentTitle = setPageTitle("There's no selected entry");
+        txtContentTitle.setFont(new Font("Segoi UI", Font.PLAIN, 30));
 
         txtContent = new JTextArea();
         txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 22));
@@ -326,8 +322,8 @@ public class App extends JFrame{
 
         JScrollPane textScroll = new JScrollPane(txtContent); // To make it scrollable
 
-        leftPanel.add(plTitle, BorderLayout.NORTH);
-        leftPanel.add(textScroll, BorderLayout.CENTER);
+        rightPanel.add(txtContentTitle, BorderLayout.NORTH);
+        rightPanel.add(textScroll, BorderLayout.CENTER);
 
         // The action
         entryListJournalListener();
@@ -336,8 +332,8 @@ public class App extends JFrame{
         btnDeleteJournalAction();
         editTitleAction();
 
-        plJournal.add(rightPanel);
         plJournal.add(leftPanel);
+        plJournal.add(rightPanel);
 
         mainContentPanel.add(plJournal, "JOURNAL");
     }
@@ -524,33 +520,13 @@ public class App extends JFrame{
     // ==== JOURNAL ENTRIES ====
     private void entryListJournalListener(){
         entryList.addListSelectionListener(e -> {
-            int index = entryList.getSelectedIndex();
-            if (index >= 0) {
-                txtContentTitle.setText(lsJournalTitles.get(sessionID).get(index).trim());
-                txtContent.setText(lsJournalContents.get(sessionID).get(index).trim());
+            int guiIndex = entryList.getSelectedIndex();
+            if (guiIndex >= 0) {
+                // since the list is ascending need to get the last array
+                int dataIndex = lsJournalTitles.get(sessionID).size() - 1 - guiIndex;
+                txtContentTitle.setText(lsJournalTitles.get(sessionID).get(dataIndex).trim());
+                txtContent.setText(lsJournalContents.get(sessionID).get(dataIndex).trim());
             }
-        });
-    }
-
-    private void editTitleAction(){
-        btnEditTitle.addActionListener(e->{
-            int index = entryList.getSelectedIndex();
-            if(index >= 0){
-                String newTitle = JOptionPane.showInputDialog(null, "Enter a new title");
-
-                // Updating the array
-                lsJournalTitles.get(sessionID).set(index, newTitle);
-                txtContentTitle.setText(newTitle);
-
-                // Using DefaultListModel to reference the entryList and change it
-                DefaultListModel<String> model = (DefaultListModel<String>) entryList.getModel();
-                String newListTag = lsJournalEntriesDate.get(sessionID).get(index) + ": " + newTitle;
-                model.setElementAt(newListTag, index);
-
-            } else {
-                JOptionPane.showMessageDialog(null, "There's no selected entry.", "Error", JOptionPane.WARNING_MESSAGE);
-            }
-
         });
     }
 
@@ -575,6 +551,12 @@ public class App extends JFrame{
             }
             // Remove white space at the start and end
             lsTitle = lsTitle.trim();
+            if (lsTitle.length() > 30){
+                JOptionPane.showMessageDialog(null, "Title should be less than 31", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Create a start up text and list title
             String newEntry;
             if(lsTitle.isBlank()){
                 newEntry = "Date: " + currentDate;
@@ -588,18 +570,19 @@ public class App extends JFrame{
             lsJournalTitles.get(sessionID).add(lsTitle);
 
             // Append on the default list from JList in journalLayout
-            ((DefaultListModel<String>) entryList.getModel()).addElement(newEntry);
+            ((DefaultListModel<String>) entryList.getModel()).add(0,newEntry);
         });
     }
 
     private void btnUpdateJournalAction(){
         btnUpdate.addActionListener(e->{
             // Entry selected
-            int index = entryList.getSelectedIndex();
+            int guiIndex = entryList.getSelectedIndex();
 
-            if (index >= 0){
+            if (guiIndex >= 0){
+                int dataIndex = lsJournalContents.get(sessionID).size() - 1 - guiIndex;
                 // Update the entry
-                lsJournalContents.get(sessionID).set(index, txtContent.getText());
+                lsJournalContents.get(sessionID).set(dataIndex, txtContent.getText());
                 JOptionPane.showMessageDialog(null, "Journal entry updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
@@ -608,20 +591,51 @@ public class App extends JFrame{
         });
     }
 
+    private void editTitleAction(){
+        btnEditTitle.addActionListener(e->{
+            int guiIndex = entryList.getSelectedIndex();
+            System.out.println(guiIndex);
+            if(guiIndex >= 0){
+                int dataIndex = lsJournalContents.get(sessionID).size() - 1 - guiIndex;
+                System.out.println(dataIndex);
+
+                String newTitle = JOptionPane.showInputDialog(null, "Enter a new title");
+
+                // Updating the array
+                lsJournalTitles.get(sessionID).set(dataIndex, newTitle);
+
+                // update gui title
+                txtContentTitle.setText(newTitle);
+
+                // Using DefaultListModel to reference the entryList and change it
+                DefaultListModel<String> model = (DefaultListModel<String>) entryList.getModel();
+                String newListTag = lsJournalEntriesDate.get(sessionID).get(dataIndex) + ": " + newTitle;
+                model.setElementAt(newListTag, guiIndex);
+                JOptionPane.showMessageDialog(null, "Succesfully change the title", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "There's no selected entry.", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+
+        });
+    }
+
     private void btnDeleteJournalAction(){
         btnDelete.addActionListener(e->{
             // Entry Selected
-            int index = entryList.getSelectedIndex();
+            int guiIndex = entryList.getSelectedIndex();
 
-            if (index >= 0) {
+            if (guiIndex >= 0) {
+                int dataIndex = lsJournalContents.size() - 1 - guiIndex;
+
                 // Ask for confirmation before deletion
                 int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this entry?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
 
                     // Using dynamic array wouldn't leave blank array slot
-                    lsJournalContents.get(sessionID).remove(index);
-                    lsJournalTitles.get(sessionID).remove(index);
-                    ((DefaultListModel<String>) entryList.getModel()).remove(index);
+                    lsJournalContents.get(sessionID).remove(dataIndex);
+                    lsJournalTitles.get(sessionID).remove(dataIndex);
+                    ((DefaultListModel<String>) entryList.getModel()).remove(guiIndex);
                     txtContent.setText("");
                 }
             } else {
