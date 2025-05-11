@@ -29,6 +29,8 @@ public class App extends JFrame{
     JButton btnNew;
     JButton btnUpdate;
     JButton btnDelete;
+    JButton btnEditTitle;
+    JTextField txtContentTitle;
     JTextArea txtContent;
 
     // Base Backgrounds
@@ -44,10 +46,12 @@ public class App extends JFrame{
     LocalDate currentDate = LocalDate.now();
 
     // User's data
-    int lsUserID = Login.indexID;
-    String lsUser = Login.currentUser;
-    public static ArrayList<ArrayList<String>> lsJournalContents = new ArrayList<>();
-    public static ArrayList<ArrayList<String>> lsJournalTitles = new ArrayList<>();
+    // not directly edting it in login since it would be redundant to call Login everytime
+    int sessionID = Login.sessionID;
+    String currentUser = Login.currentUser;
+    ArrayList<ArrayList<String>> lsJournalEntriesDate = Login.lsJournalEntriesDate;
+    ArrayList<ArrayList<String>> lsJournalContents = Login.lsJournalContents;
+    ArrayList<ArrayList<String>> lsJournalTitles = Login.lsJournalTitles;
 
     // Quotes
     String[] homeQuote = {
@@ -123,14 +127,6 @@ public class App extends JFrame{
         add(mainContentPanel, BorderLayout.CENTER);
         add(footerPanel, BorderLayout.SOUTH);
 
-        // Set Journal Entries
-        for(int users = Login.USERS.size(), entries = lsJournalContents.size(); entries < users; entries++){
-            lsJournalContents.add(new ArrayList<>());
-            lsJournalTitles.add(new ArrayList<>());
-            // For debugging
-            //System.out.println(lsJournalContents);
-        }
-
         // Initialize the panels for main content panel
         homeLayout();
         journalLayout();
@@ -190,7 +186,7 @@ public class App extends JFrame{
 
         // Username
         gbc.gridy = 0;
-        JLabel lbUsername = new JLabel("Welcome, " + lsUser);
+        JLabel lbUsername = new JLabel("Welcome, " + currentUser);
         lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         lbUsername.setForeground(Color.DARK_GRAY);
         plHome.add(lbUsername, gbc);
@@ -269,9 +265,8 @@ public class App extends JFrame{
         plJournal.setBackground(bgMain);
 
         // RIGHT side of the gird
-        JPanel rightPanel = new JPanel(new BorderLayout());
+        JPanel rightPanel = new JPanel(new BorderLayout(5,3));
         rightPanel.setBackground(bgMain);
-        rightPanel.setBorder(BorderFactory.createLineBorder(new Color(0xDCDCDC), 1));
 
         // Top border layout
         JLabel lbJournal = setPageTitle("Journal Page");
@@ -281,13 +276,14 @@ public class App extends JFrame{
 
         // Using default list model to make the list resizable and not static
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (String title : lsJournalTitles.get(lsUserID)) {
-            listModel.addElement(title);
+        for (int i = 0, listLength = lsJournalTitles.get(sessionID).size(); i < listLength; i++) {
+            listModel.addElement(lsJournalEntriesDate.get(sessionID).get(i) + ": " + lsJournalTitles.get(sessionID).get(i));
         }
         entryList = new JList<>(listModel);
-        entryList.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        entryList.setFont(new Font("Segoe UI", Font.PLAIN, 22));
 
         JScrollPane listScroll = new JScrollPane(entryList);
+        listScroll.setBorder(null);
         rightPanel.add(listScroll, BorderLayout.CENTER);
 
         // Bottom panel, buttons
@@ -303,6 +299,23 @@ public class App extends JFrame{
         rightPanel.add(buttonGrid, BorderLayout.SOUTH);
 
         // LEFT side of the grid
+        JPanel leftPanel = new JPanel(new BorderLayout());
+
+        JPanel plTitle = new JPanel(new FlowLayout());
+        plTitle.setBackground(bgMain);
+
+        txtContentTitle = new JTextField();
+        txtContentTitle.setPreferredSize(new Dimension(450,50));
+        txtContentTitle.setFont(new Font("Segoi UI", Font.BOLD, 30));
+        txtContentTitle.setBorder(null);
+        txtContentTitle.setEditable(false);
+
+        btnEditTitle = new JButton("Rename");
+
+        plTitle.add(txtContentTitle);
+        plTitle.add(btnEditTitle);
+
+
         txtContent = new JTextArea();
         txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 22));
         txtContent.setBackground(bgMain);
@@ -313,14 +326,18 @@ public class App extends JFrame{
 
         JScrollPane textScroll = new JScrollPane(txtContent); // To make it scrollable
 
+        leftPanel.add(plTitle, BorderLayout.NORTH);
+        leftPanel.add(textScroll, BorderLayout.CENTER);
+
         // The action
         entryListJournalListener();
         btnNewJournalAction();
         btnUpdateJournalAction();
         btnDeleteJournalAction();
+        editTitleAction();
 
         plJournal.add(rightPanel);
-        plJournal.add(textScroll);
+        plJournal.add(leftPanel);
 
         mainContentPanel.add(plJournal, "JOURNAL");
     }
@@ -486,7 +503,17 @@ public class App extends JFrame{
         btnLogout.addActionListener(e -> {
             int answer = JOptionPane.showConfirmDialog(null,"Are you sure?", "Logout", JOptionPane.OK_CANCEL_OPTION);
             if(answer == 0){
+                // For developing puposes
+//                System.out.println("===== From App ====");
+//                System.out.println("User: "  + currentUser);
+//                System.out.println("User content List: " + lsJournalContents.get(sessionID));
+//                System.out.println("All list: \n" + lsJournalContents);
+//                System.out.println("===== From App ====");
                 EventQueue.invokeLater(()->{
+                    // passing the value to Login
+                    Login.lsJournalContents = lsJournalContents;
+                    Login.lsJournalTitles = lsJournalTitles;
+                    Login.lsJournalEntriesDate = lsJournalEntriesDate;
                     new Login();
                 });
                 dispose();
@@ -499,8 +526,31 @@ public class App extends JFrame{
         entryList.addListSelectionListener(e -> {
             int index = entryList.getSelectedIndex();
             if (index >= 0) {
-                txtContent.setText(lsJournalContents.get(lsUserID).get(index).trim());
+                txtContentTitle.setText(lsJournalTitles.get(sessionID).get(index).trim());
+                txtContent.setText(lsJournalContents.get(sessionID).get(index).trim());
             }
+        });
+    }
+
+    private void editTitleAction(){
+        btnEditTitle.addActionListener(e->{
+            int index = entryList.getSelectedIndex();
+            if(index >= 0){
+                String newTitle = JOptionPane.showInputDialog(null, "Enter a new title");
+
+                // Updating the array
+                lsJournalTitles.get(sessionID).set(index, newTitle);
+                txtContentTitle.setText(newTitle);
+
+                // Using DefaultListModel to reference the entryList and change it
+                DefaultListModel<String> model = (DefaultListModel<String>) entryList.getModel();
+                String newListTag = lsJournalEntriesDate.get(sessionID).get(index) + ": " + newTitle;
+                model.setElementAt(newListTag, index);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "There's no selected entry.", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+
         });
     }
 
@@ -518,7 +568,8 @@ public class App extends JFrame{
             }
 
             // Input a title
-            String lsTitle = JOptionPane.showInputDialog(null, "Enter a Title:");
+            String lsTitle = JOptionPane.showInputDialog(null, "Enter a Title: ");
+            // pressed Cancel
             if (lsTitle == null){
                 return;
             }
@@ -528,12 +579,13 @@ public class App extends JFrame{
             if(lsTitle.isBlank()){
                 newEntry = "Date: " + currentDate;
             }else {
-                newEntry = currentDate + " : " + lsTitle;
+                newEntry = currentDate + ": " + lsTitle;
             }
 
             // Update temporary data
-            lsJournalContents.get(lsUserID).add(newEntry + "\n\n" + txtArea);
-            lsJournalTitles.get(lsUserID).add(newEntry);
+            lsJournalContents.get(sessionID).add(newEntry + "\n\n" + txtArea);
+            lsJournalEntriesDate.get(sessionID).add(String.valueOf(currentDate));
+            lsJournalTitles.get(sessionID).add(lsTitle);
 
             // Append on the default list from JList in journalLayout
             ((DefaultListModel<String>) entryList.getModel()).addElement(newEntry);
@@ -547,7 +599,7 @@ public class App extends JFrame{
 
             if (index >= 0){
                 // Update the entry
-                lsJournalContents.get(lsUserID).set(index, txtContent.getText());
+                lsJournalContents.get(sessionID).set(index, txtContent.getText());
                 JOptionPane.showMessageDialog(null, "Journal entry updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
@@ -567,8 +619,8 @@ public class App extends JFrame{
                 if (confirm == JOptionPane.YES_OPTION) {
 
                     // Using dynamic array wouldn't leave blank array slot
-                    lsJournalContents.get(lsUserID).remove(index);
-                    lsJournalTitles.get(lsUserID).remove(index);
+                    lsJournalContents.get(sessionID).remove(index);
+                    lsJournalTitles.get(sessionID).remove(index);
                     ((DefaultListModel<String>) entryList.getModel()).remove(index);
                     txtContent.setText("");
                 }

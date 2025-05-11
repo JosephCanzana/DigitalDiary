@@ -43,11 +43,17 @@ public class Login extends JFrame {
     // Text Colors
     Color textPrimary = new Color(0xFF1C1C1E);
 
+    public static boolean initialized = false;
+
     // Temporary storing system (since database is not allowed)
     public static ArrayList<String> USERS = new ArrayList<>();
     public static ArrayList<String> PASSWORD = new ArrayList<>();
-    public static int indexID;
+    public static int sessionID;
     public static String currentUser;
+
+    public static ArrayList<ArrayList<String>> lsJournalContents = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> lsJournalEntriesDate = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> lsJournalTitles = new ArrayList<>();
 
 
     // MAIN SETUP
@@ -83,10 +89,14 @@ public class Login extends JFrame {
         add(loginFooterForm, BorderLayout.SOUTH);
 
         // admin accounts
-        USERS.add("Admin");
-        PASSWORD.add("12345678");
-        USERS.add("Canzana");
-        PASSWORD.add("12345678");
+        if(!initialized) {
+            setAdminAccount("Admin", "12345678");
+            setAdminAccount("Canzana", "12345678");
+//            setAdminAccount("Ferrer", "12345678");
+//            setAdminAccount("Dischoso", "12345678");
+//            setAdminAccount("Jayson", "12345678");
+            initialized = true;
+        }
 
         // Different main page layout (card layout)
         loginLayout();
@@ -297,10 +307,15 @@ public class Login extends JFrame {
             }
 
             // assigning what user index is selected
-            indexID = index;
+            sessionID = index;
             currentUser = USERS.get(index);
 
             EventQueue.invokeLater(()->{
+                // For developing puposes
+//                System.out.println("===== From Login ====");
+//                System.out.println("User: "  + currentUser);
+//                System.out.println("All list: \n" + lsJournalContents);
+//                System.out.println("===== From Login ====");
                 new App();
             });
 
@@ -316,6 +331,13 @@ public class Login extends JFrame {
             String confirmPassword = new String(pwdConfirm.getPassword());
 
             // Requirement checking
+            for (String user : USERS){
+                if (username.equals(user)){
+                    JOptionPane.showMessageDialog(null, "The username already exist", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+
             if (password.length() < 8){
                 JOptionPane.showMessageDialog(this, "Password character length should be equal or more than 8", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -324,17 +346,13 @@ public class Login extends JFrame {
                 return;
             }
 
-
-            for (String user : USERS){
-                if (username.equals(user)){
-                    JOptionPane.showMessageDialog(null, "The username already exist", "Warning", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-            }
-
-
             USERS.add(username);
             PASSWORD.add(password);
+
+            // Intializing the new contents
+            lsJournalContents.add(new ArrayList<>());
+            lsJournalTitles.add(new ArrayList<>());
+            lsJournalEntriesDate.add(new ArrayList<>());
 
             // Direct the user to the login form
             CardLayout cl = (CardLayout) loginMainForm.getLayout();
@@ -410,5 +428,13 @@ public class Login extends JFrame {
         password.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         password.setPreferredSize(new Dimension(500,50));
         return password;
+    }
+
+    private void setAdminAccount(String username, String password){
+        USERS.add(username);
+        PASSWORD.add(password);
+        lsJournalContents.add(new ArrayList<>());
+        lsJournalTitles.add(new ArrayList<>());
+        lsJournalEntriesDate.add(new ArrayList<>());
     }
 }
