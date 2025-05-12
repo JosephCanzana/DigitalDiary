@@ -39,8 +39,18 @@ public class App extends JFrame{
     Color bgTertiary = new Color(0xFFE5E5EA);
 
     // Text Colors
-    Color textPrimary = new Color(0xFF1C1C1E);
-    Color textSecondary = new Color(0x333333);
+    Color clrPrimary = new Color(0xFF1C1C1E);
+    Color clrSecondary = new Color(0x333333);
+    Color clrTertiary = new Color(0x8e8e93);
+
+    Color clrBlue = new Color(0x007aff);
+    Color clrRed = new Color(0xff3b30);
+    Color clrYellow = new Color(0xffcc00);
+
+
+    Color clrGreen = new Color(0x34c759);
+    Color clrPurple = new Color(0x5856d6);
+    Color clrLightGray = new Color(0xf2f2f7);
 
     // Current date
     LocalDate currentDate = LocalDate.now();
@@ -153,15 +163,15 @@ public class App extends JFrame{
 
         // Create the title
         JLabel title = new JLabel("ReflectNote ||  ");
-        title.setForeground(textPrimary);
+        title.setForeground(clrPrimary);
         title.setFont(new Font("Segoe UI", Font.BOLD, 30));
 
         // Create the buttons
-        btnHome = createNavButton("Home", Color.DARK_GRAY);
-        btnJournal = createNavButton("Journal", Color.DARK_GRAY);
-        btnInspire = createNavButton("Inspire", Color.DARK_GRAY);
-        btnAbout = createNavButton("About", Color.GRAY);
-        btnLogout = createNavButton("Logout", Color.RED);
+        btnHome = createNavButton("Home", clrSecondary);
+        btnJournal = createNavButton("Journal", clrSecondary);
+        btnInspire = createNavButton("Inspire", clrSecondary);
+        btnAbout = createNavButton("About", clrTertiary);
+        btnLogout = createNavButton("Logout", clrRed);
 
         // Calling button action functionality
         btnHomeAction();
@@ -193,21 +203,21 @@ public class App extends JFrame{
         gbc.gridy = 0;
         JLabel lbUsername = new JLabel("Welcome, " + currentUser);
         lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 30));
-        lbUsername.setForeground(Color.DARK_GRAY);
+        lbUsername.setForeground(clrSecondary);
         plHome.add(lbUsername, gbc);
 
         // Title
         gbc.gridy = 1;
         JLabel lbHome = new JLabel("ReflectNote");
         lbHome.setFont(new Font("Segoe UI", Font.BOLD, 75));
-        lbHome.setForeground(new Color(30, 30, 30));
+        lbHome.setForeground(clrPrimary);
         plHome.add(lbHome, gbc);
 
         // Tagline
         gbc.gridy = 2;
         JLabel lbTagline = new JLabel("Your mind, beautifully organized.");
         lbTagline.setFont(new Font("Segoe UI", Font.ITALIC, 25));
-        lbTagline.setForeground(new Color(100, 100, 100));
+        lbTagline.setForeground(clrTertiary);
         plHome.add(lbTagline, gbc);
 
         // Quote
@@ -217,21 +227,21 @@ public class App extends JFrame{
         int randomQuoteInx = random.nextInt(homeQuote.length);
         JLabel lbRandomQuote = new JLabel("\"" + homeQuote[randomQuoteInx] + "\"");
         lbRandomQuote.setFont(new Font("Georgia", Font.ITALIC, 22));
-        lbRandomQuote.setForeground(new Color(70, 70, 70));
+        lbRandomQuote.setForeground(clrSecondary);
         plHome.add(lbRandomQuote, gbc);
 
         // Date
         gbc.gridy = 4;
         JLabel lbDate = new JLabel(currentDate.toString());
         lbDate.setFont(new Font("Segoe UI", Font.PLAIN, 23));
-        lbDate.setForeground(Color.BLUE);
+        lbDate.setForeground(clrBlue);
         plHome.add(lbDate, gbc);
 
         // Description box for button hover
         gbc.gridy = 5;
         JLabel lbDescription = new JLabel("Hover over a button to learn more.");
         lbDescription.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        lbDescription.setForeground(new Color(80, 80, 80));
+        lbDescription.setForeground(clrSecondary);
 
         plHome.add(lbDescription, gbc);
 
@@ -254,6 +264,17 @@ public class App extends JFrame{
         addHoverDescription(btnInspire, lbDescription, "Find inspiration for your thoughts.");
         addHoverDescription(btnJournal, lbDescription, "Start journaling your day.");
         addHoverDescription(btnAbout, lbDescription, "Learn more about ReflectNote.");
+
+        gbc.gridy = 7;
+        // Create a themed toggle button with text or icons
+        JToggleButton changeTheme = new JToggleButton("🌙 Dark Mode");
+
+        // Optional: customize appearance
+        changeTheme.setFocusPainted(false);
+        changeTheme.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        changeTheme.setBackground(clrLightGray);
+        changeTheme.setForeground(clrPrimary);
+        plHome.add(changeTheme, gbc);
 
         // Button actions
         btnJournalAction();
@@ -286,6 +307,7 @@ public class App extends JFrame{
         }
         entryList = new JList<>(listModel);
         entryList.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+        entryList.setForeground(clrPrimary);
         JScrollPane listScroll = new JScrollPane(entryList);
         listScroll.setBorder(null);
         leftPanel.add(listScroll, BorderLayout.CENTER);
@@ -311,12 +333,13 @@ public class App extends JFrame{
         // title of the content
         txtContentTitle = setPageTitle("There's no selected entry");
         txtContentTitle.setFont(new Font("Segoi UI", Font.PLAIN, 30));
+        txtContentTitle.setForeground(clrPrimary);
 
         txtContent = new JTextArea();
         txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+        txtContent.setBorder(BorderFactory.createLineBorder(clrLightGray, 1));
         txtContent.setBackground(bgMain);
-        txtContent.setForeground(textSecondary);
-        txtContent.setBorder(BorderFactory.createLineBorder(new Color(0xDCDCDC), 1));
+        txtContent.setForeground(clrSecondary);
         txtContent.setLineWrap(true); // makes a new line after reaching end (wrap)
         txtContent.setWrapStyleWord(true); // wrap word by word
 
@@ -420,9 +443,10 @@ public class App extends JFrame{
         gbc.gridy = 1;
         // Quote label
         JTextArea quoteArea = new JTextArea(quote);
-        quoteArea.setFont(new Font("Segoi UI", Font.PLAIN, 30));
-        quoteArea.setBackground(bgMain);
+        quoteArea.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         quoteArea.setPreferredSize(new Dimension(1000, 150));
+        quoteArea.setBackground(bgMain);
+        quoteArea.setForeground(clrPrimary);
         quoteArea.setLineWrap(true);
         quoteArea.setWrapStyleWord(true);
         quoteArea.setEditable(false);
@@ -431,7 +455,9 @@ public class App extends JFrame{
 
         // Your button logic here (already existing)
         JButton backButton = createJornalOptionButton("Back");
-        backButton.setForeground(new Color(0x007AF));
+        backButton.setForeground(clrBlue);
+        //removing background(changing to bgwhite) and border that come with the create option button
+        backButton.setBackground(bgMain);
         backButton.setBorder(null);
         // Add action listener for the back button if needed
         backButton.addActionListener(e -> {
@@ -499,7 +525,7 @@ public class App extends JFrame{
         btnLogout.addActionListener(e -> {
             int answer = JOptionPane.showConfirmDialog(null,"Are you sure?", "Logout", JOptionPane.OK_CANCEL_OPTION);
             if(answer == 0){
-                // For developing puposes
+                // For developing purposes
 //                System.out.println("===== From App ====");
 //                System.out.println("User: "  + currentUser);
 //                System.out.println("User content List: " + lsJournalContents.get(sessionID));
@@ -659,7 +685,7 @@ public class App extends JFrame{
         // Create the label for the home screen
         JLabel label = new JLabel(title, JLabel.CENTER);
         label.setFont(new Font("Segoe UI", Font.BOLD, 40));
-        label.setForeground(textSecondary);
+        label.setForeground(clrPrimary);
         return label;
     }
 
@@ -675,16 +701,14 @@ public class App extends JFrame{
         // In button hover
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
-                button.setFont(new Font("Segoe UI", Font.BOLD, 20));
+                button.setFont(new Font("Segoe UI", Font.BOLD, 19));
                 if(text == "Logout"){
-                    button.setForeground(Color.RED);
+                    button.setForeground(clrRed);
                 } else {
-                    button.setForeground(Color.BLUE);
+                    button.setForeground(clrBlue);
                 }
             }
             public void mouseExited(MouseEvent e) {
-                button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
                 button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
                 button.setForeground(fgColor);
             }
@@ -696,6 +720,7 @@ public class App extends JFrame{
     private JButton createMoodButton(String text, Color bgColor){
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        button.setForeground(clrPrimary);
         button.setBackground(bgColor);
         return button;
     }
@@ -703,9 +728,9 @@ public class App extends JFrame{
     // Journal options button
     private JButton createJornalOptionButton(String text){
         JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        button.setBackground(bgMain);
-        button.setOpaque(false);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        button.setForeground(clrPrimary);
+        button.setBackground(bgSecondary);
         return button;
 
     }
@@ -715,9 +740,15 @@ public class App extends JFrame{
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 descriptionLabel.setText(text);
+                descriptionLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
+                descriptionLabel.setForeground(clrBlue);
+                button.setBackground(clrBlue);
             }
             public void mouseExited(MouseEvent e) {
                 descriptionLabel.setText("Hover over a button to learn more.");
+                descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+                descriptionLabel.setForeground(clrTertiary);
+                button.setBackground(bgSecondary);
             }
         });
     }
