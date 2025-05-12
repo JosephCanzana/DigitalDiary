@@ -33,24 +33,29 @@ public class App extends JFrame{
     JLabel txtContentTitle;
     JTextArea txtContent;
 
+    // for different themes
+    JButton btnChangeTheme;
+    String[] THEMES = {"LIGHT", "DARK", "TWILIGHT", "STARDUST"};
+    public static int currentTheme = 0;
+
     // Base Backgrounds
-    Color bgMain = Color.white;
-    Color bgSecondary = new Color(0xFFF2F2F7);
-    Color bgTertiary = new Color(0xFFE5E5EA);
+    public static Color bgMain = Color.white;
+    public static Color bgSecondary = new Color(0xFFF2F2F7);
+    public static Color bgTertiary = new Color(0xFFE5E5EA);
 
     // Text Colors
-    Color clrPrimary = new Color(0xFF1C1C1E);
-    Color clrSecondary = new Color(0x333333);
-    Color clrTertiary = new Color(0x8e8e93);
+    public static Color clrPrimary = new Color(0xFF1C1C1E);
+    public static Color clrSecondary = new Color(0x333333);
+    public static Color clrTertiary = new Color(0x8e8e93);
 
-    Color clrBlue = new Color(0x007aff);
-    Color clrRed = new Color(0xff3b30);
-    Color clrYellow = new Color(0xffcc00);
+    public static Color clrBlue = new Color(0x007aff);
+    public static Color clrRed = new Color(0xff3b30);
+    public static Color clrYellow = new Color(0xffcc00);
 
+    public static Color clrGreen = new Color(0x34c759);
+    public static Color clrPurple = new Color(0x5856d6);
+    public static Color clrLightGray = new Color(0xf2f2f7);
 
-    Color clrGreen = new Color(0x34c759);
-    Color clrPurple = new Color(0x5856d6);
-    Color clrLightGray = new Color(0xf2f2f7);
 
     // Current date
     LocalDate currentDate = LocalDate.now();
@@ -108,8 +113,8 @@ public class App extends JFrame{
     // MAIN SETUP
     App(){
         // Basic setup the JFrame
-        setSize(1150,710);
-        setMinimumSize(new Dimension(1150,710));
+        setSize(1250,750);
+        setMinimumSize(new Dimension(1250,750));
         getContentPane().setBackground(bgMain);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("ReflectNote: Your mind, beautifully organized.");
@@ -125,7 +130,7 @@ public class App extends JFrame{
         // Creating the panel
         navigationBar = new JPanel();
         mainContentPanel = new JPanel(new CardLayout());
-        footerPanel = new JPanel();
+        footerPanel = new JPanel(new BorderLayout());
 
         // Set Color to the panel
         navigationBar.setBackground(bgSecondary);
@@ -142,14 +147,20 @@ public class App extends JFrame{
         add(mainContentPanel, BorderLayout.CENTER);
         add(footerPanel, BorderLayout.SOUTH);
 
+        // Panel setup
+        setNavigationBar();
+
         // Initialize the panels for main content panel
         homeLayout();
         journalLayout();
         inspireLayout();
         aboutLayout();
 
-        // Panel setup
-        setNavigationBar();
+        // Footer
+        JLabel lbFooter = new JLabel("Ferrer - Canzana - Dischoso  |  ReflectNote © 2025", JLabel.CENTER);
+        lbFooter.setForeground(clrTertiary);
+        lbFooter.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        footerPanel.add(lbFooter, BorderLayout.CENTER);
 
         setLocationRelativeTo(null); // For Centering
         setVisible(true); // Set the Frame visible
@@ -190,7 +201,7 @@ public class App extends JFrame{
 
     }
 
-    // LAYOUT PANEL DESIGN
+    // LAYOUT PANEL DESIGN (CENTER)
     private void homeLayout() {
         plHome = new JPanel(new GridBagLayout());
         plHome.setBackground(bgMain);
@@ -202,21 +213,21 @@ public class App extends JFrame{
         // Username
         gbc.gridy = 0;
         JLabel lbUsername = new JLabel("Welcome, " + currentUser);
-        lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 35));
         lbUsername.setForeground(clrSecondary);
         plHome.add(lbUsername, gbc);
 
         // Title
         gbc.gridy = 1;
         JLabel lbHome = new JLabel("ReflectNote");
-        lbHome.setFont(new Font("Segoe UI", Font.BOLD, 75));
+        lbHome.setFont(new Font("Segoe UI", Font.BOLD, 80));
         lbHome.setForeground(clrPrimary);
         plHome.add(lbHome, gbc);
 
         // Tagline
         gbc.gridy = 2;
         JLabel lbTagline = new JLabel("Your mind, beautifully organized.");
-        lbTagline.setFont(new Font("Segoe UI", Font.ITALIC, 25));
+        lbTagline.setFont(new Font("Segoe UI", Font.ITALIC, 30));
         lbTagline.setForeground(clrTertiary);
         plHome.add(lbTagline, gbc);
 
@@ -233,14 +244,14 @@ public class App extends JFrame{
         // Date
         gbc.gridy = 4;
         JLabel lbDate = new JLabel(currentDate.toString());
-        lbDate.setFont(new Font("Segoe UI", Font.PLAIN, 23));
+        lbDate.setFont(new Font("Segoe UI", Font.PLAIN, 25));
         lbDate.setForeground(clrBlue);
         plHome.add(lbDate, gbc);
 
         // Description box for button hover
         gbc.gridy = 5;
         JLabel lbDescription = new JLabel("Hover over a button to learn more.");
-        lbDescription.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        lbDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         lbDescription.setForeground(clrSecondary);
 
         plHome.add(lbDescription, gbc);
@@ -267,19 +278,31 @@ public class App extends JFrame{
 
         gbc.gridy = 7;
         // Create a themed toggle button with text or icons
-        JToggleButton changeTheme = new JToggleButton("🌙 Dark Mode");
-
-        // Optional: customize appearance
-        changeTheme.setFocusPainted(false);
-        changeTheme.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        changeTheme.setBackground(clrLightGray);
-        changeTheme.setForeground(clrPrimary);
-        plHome.add(changeTheme, gbc);
+        btnChangeTheme = new JButton();
+        switch (currentTheme){
+            case 0:
+                btnChangeTheme.setText("☀ Light mode");
+                break;
+            case 1:
+                btnChangeTheme.setText("\uD83C\uDF19 Dark theme");
+                break;
+            case 2:
+                btnChangeTheme.setText("\uD83C\uDF12 Twilight mode");
+                break;
+            case 3:
+                btnChangeTheme.setText("✨ Stardust mode");
+                break;
+        }
+        btnChangeTheme.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        btnChangeTheme.setBackground(clrLightGray);
+        btnChangeTheme.setForeground(clrPrimary);
+        plHome.add(btnChangeTheme, gbc);
 
         // Button actions
         btnJournalAction();
         btnInspireAction();
         btnAboutAction();
+        btnChangeThemeAction();
 
         mainContentPanel.add(plHome, "HOME");
     }
@@ -307,6 +330,7 @@ public class App extends JFrame{
         }
         entryList = new JList<>(listModel);
         entryList.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+        entryList.setBackground(bgMain);
         entryList.setForeground(clrPrimary);
         JScrollPane listScroll = new JScrollPane(entryList);
         listScroll.setBorder(null);
@@ -314,6 +338,7 @@ public class App extends JFrame{
 
         // Bottom panel, buttons
         JPanel buttonGrid = new JPanel(new GridLayout(0,4,3,3));
+        buttonGrid.setBackground(bgMain);
         btnNew = createJornalOptionButton("New");
         btnEditTitle = createJornalOptionButton("Rename");
         btnUpdate = createJornalOptionButton("Update");
@@ -366,6 +391,7 @@ public class App extends JFrame{
         plInspire = new JPanel(new BorderLayout(5,7)); // height gap, vertical gap
         plInspire.setBackground(bgMain);
         JPanel plMoodButtons = new JPanel(new GridLayout(2, 3, 10, 10));
+        plMoodButtons.setBackground(bgMain);
 
         // Page title
         JLabel lbInspire = setPageTitle("Inspire Page");
@@ -540,6 +566,97 @@ public class App extends JFrame{
                 });
                 dispose();
             }
+        });
+    }
+
+    // ==== HOME ====
+    private void btnChangeThemeAction(){
+        btnChangeTheme.addActionListener(e -> {
+            // Wrap around
+            if (currentTheme == THEMES.length - 1){
+                currentTheme = 0;
+            } else {
+                // Next theme
+                currentTheme++;
+            }
+            String themeName = THEMES[currentTheme];
+
+            switch (themeName){
+                case "DARK":
+                    bgMain = new Color(0x1C1C1E);
+                    bgSecondary = new Color(0x2C2C2E);
+                    bgTertiary = new Color(0x3A3A3C);
+
+                    clrPrimary = new Color(0xFFFFFF);
+                    clrSecondary = new Color(0xD1D1D6);
+                    clrTertiary = new Color(0x8E8E93);
+
+                    clrBlue = new Color(0x0A84FF);
+                    clrRed = new Color(0xFF453A);
+                    clrYellow = new Color(0xFFD60A);
+                    clrGreen = new Color(0x30D158);
+                    clrPurple = new Color(0xBF5AF2);
+                    clrLightGray = new Color(0x2C2C2E);
+
+                    break;
+                case "TWILIGHT":
+                    bgMain = new Color(0xF5F3FA);
+                    bgSecondary = new Color(0xE6E2F0);
+                    bgTertiary = new Color(0xD7D1E8);
+
+                    clrPrimary = new Color(0x2D1E4D);
+                    clrSecondary = new Color(0x4A3B66);
+                    clrTertiary = new Color(0x8E8EA0);
+
+                    clrBlue = new Color(0x6D88FF);
+                    clrRed = new Color(0xFF6B6B);
+                    clrYellow = new Color(0xFFDB58);
+                    clrGreen = new Color(0x60D394);
+                    clrPurple = new Color(0x8A77D9);
+                    clrLightGray = new Color(0xE6E2F0);
+                    break;
+
+                case "STARDUST":
+                    bgMain = new Color(0x0D1B2A);
+                    bgSecondary = new Color(0x1B263B);
+                    bgTertiary = new Color(0x415A77);
+
+                    clrPrimary = new Color(0xE0E1DD);
+                    clrSecondary = new Color(0xAFCBFF);
+                    clrTertiary = new Color(0x748CAB);
+
+                    clrBlue = new Color(0x7AB8F5);
+                    clrRed = new Color(0xEF767A);
+                    clrYellow = new Color(0xF5D491);
+                    clrGreen = new Color(0x9AEBA3);
+                    clrPurple = new Color(0xC1A3FF);
+                    clrLightGray = new Color(0x2E4057);
+                    break;
+
+                default:
+                    bgMain = Color.white;
+                    bgSecondary = new Color(0xFFF2F2F7);
+                    bgTertiary = new Color(0xFFE5E5EA);
+
+                    clrPrimary = new Color(0xFF1C1C1E);
+                    clrSecondary = new Color(0x333333);
+                    clrTertiary = new Color(0x8e8e93);
+
+                    clrBlue = new Color(0x007aff);
+                    clrRed = new Color(0xff3b30);
+                    clrYellow = new Color(0xffcc00);
+                    clrGreen = new Color(0x34c759);
+                    clrPurple = new Color(0x5856d6);
+                    clrLightGray = new Color(0xf2f2f7);
+
+                    break;
+            }
+
+            dispose();
+            java.awt.EventQueue.invokeLater(()->{
+                new App();
+            });
+
         });
     }
 
@@ -720,7 +837,7 @@ public class App extends JFrame{
     private JButton createMoodButton(String text, Color bgColor){
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        button.setForeground(clrPrimary);
+        button.setForeground(new Color(0xFF1C1C1E));
         button.setBackground(bgColor);
         return button;
     }
