@@ -35,7 +35,7 @@ public class App extends JFrame{
 
     // for different themes
     JButton btnChangeTheme;
-    String[] THEMES = {"LIGHT", "DARK", "TWILIGHT", "STARDUST"};
+    String[] THEMES = {"LIGHT", "DARK", "TWILIGHT", "STARDUST", "DAWN"};
     public static int currentTheme = 0;
 
     // Base Backgrounds
@@ -70,7 +70,7 @@ public class App extends JFrame{
 
     // Quotes
     String[] homeQuote = {
-            "God loved the world and gave His only Son, so whoever believes won't perish but have eternal life. - John 3:16",
+            "God loved the world and gave His only Son, so whoever believes won't perish but have eternal life. John 3:16",
             "The world's beauty is in the eyes of it's beholder - Sachi",
             "I can do all things through Christ who strengthens me. - Philippians 4:13",
             "Trust the Lord with all your heart, submit to Him, and He will guide your paths. Proverbs 3:5-6",
@@ -206,28 +206,28 @@ public class App extends JFrame{
         plHome = new JPanel(new GridBagLayout());
         plHome.setBackground(bgMain);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 10, 10, 10); // top, left, bottom, top
+        gbc.insets = new Insets(5, 10, 5, 10); // top, left, bottom, top
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Username
         gbc.gridy = 0;
         JLabel lbUsername = new JLabel("Welcome, " + currentUser);
-        lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+        lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         lbUsername.setForeground(clrSecondary);
         plHome.add(lbUsername, gbc);
 
         // Title
         gbc.gridy = 1;
         JLabel lbHome = new JLabel("ReflectNote");
-        lbHome.setFont(new Font("Segoe UI", Font.BOLD, 80));
+        lbHome.setFont(new Font("Segoe UI", Font.BOLD, 85));
         lbHome.setForeground(clrPrimary);
         plHome.add(lbHome, gbc);
 
         // Tagline
         gbc.gridy = 2;
         JLabel lbTagline = new JLabel("Your mind, beautifully organized.");
-        lbTagline.setFont(new Font("Segoe UI", Font.ITALIC, 30));
+        lbTagline.setFont(new Font("Segoe UI", Font.ITALIC, 35));
         lbTagline.setForeground(clrTertiary);
         plHome.add(lbTagline, gbc);
 
@@ -237,21 +237,21 @@ public class App extends JFrame{
         Random random = new Random();
         int randomQuoteInx = random.nextInt(homeQuote.length);
         JLabel lbRandomQuote = new JLabel("\"" + homeQuote[randomQuoteInx] + "\"");
-        lbRandomQuote.setFont(new Font("Georgia", Font.ITALIC, 22));
+        lbRandomQuote.setFont(new Font("Georgia", Font.ITALIC, 25));
         lbRandomQuote.setForeground(clrSecondary);
         plHome.add(lbRandomQuote, gbc);
 
         // Date
         gbc.gridy = 4;
         JLabel lbDate = new JLabel(currentDate.toString());
-        lbDate.setFont(new Font("Segoe UI", Font.PLAIN, 25));
+        lbDate.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         lbDate.setForeground(clrBlue);
         plHome.add(lbDate, gbc);
 
         // Description box for button hover
         gbc.gridy = 5;
         JLabel lbDescription = new JLabel("Hover over a button to learn more.");
-        lbDescription.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        lbDescription.setFont(new Font("Segoe UI", Font.PLAIN, 23));
         lbDescription.setForeground(clrSecondary);
 
         plHome.add(lbDescription, gbc);
@@ -280,20 +280,24 @@ public class App extends JFrame{
         // Create a themed toggle button with text or icons
         btnChangeTheme = new JButton();
         switch (currentTheme){
+            // Unicode emoji
             case 0:
-                btnChangeTheme.setText("☀ Light mode");
+                btnChangeTheme.setText("\u2600 Light mode"); //☀️
                 break;
             case 1:
-                btnChangeTheme.setText("\uD83C\uDF19 Dark theme");
+                btnChangeTheme.setText("\uD83C\uDF19 Dark mode"); // 🌙
                 break;
             case 2:
-                btnChangeTheme.setText("\uD83C\uDF12 Twilight mode");
+                btnChangeTheme.setText("\uD83C\uDF12 Twilight mode"); // 🌒
                 break;
             case 3:
-                btnChangeTheme.setText("✨ Stardust mode");
+                btnChangeTheme.setText("\u2728 Stardust mode"); //✨
+                break;
+            case 4:
+                btnChangeTheme.setText("\uD83C\uDF05 Dawn mode"); // 🌅
                 break;
         }
-        btnChangeTheme.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        btnChangeTheme.setFont(new Font("SansSerif", Font.PLAIN, 18));
         btnChangeTheme.setBackground(clrLightGray);
         btnChangeTheme.setForeground(clrPrimary);
         plHome.add(btnChangeTheme, gbc);
@@ -329,7 +333,7 @@ public class App extends JFrame{
             listModel.addElement(lsJournalEntriesDate.get(sessionID).get(i) + ": " + lsJournalTitles.get(sessionID).get(i));
         }
         entryList = new JList<>(listModel);
-        entryList.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+        entryList.setFont(new Font("Segoe UI", Font.PLAIN, 26));
         entryList.setBackground(bgMain);
         entryList.setForeground(clrPrimary);
         JScrollPane listScroll = new JScrollPane(entryList);
@@ -356,12 +360,12 @@ public class App extends JFrame{
         rightPanel.setBackground(bgMain);
 
         // title of the content
-        txtContentTitle = setPageTitle("There's no selected entry");
-        txtContentTitle.setFont(new Font("Segoi UI", Font.PLAIN, 30));
+        txtContentTitle = setPageTitle("Select an entry");
+        txtContentTitle.setFont(new Font("Segoe UI", Font.PLAIN, 33));
         txtContentTitle.setForeground(clrPrimary);
 
         txtContent = new JTextArea();
-        txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+        txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 26));
         txtContent.setBorder(BorderFactory.createLineBorder(clrLightGray, 1));
         txtContent.setBackground(bgMain);
         txtContent.setForeground(clrSecondary);
@@ -397,8 +401,8 @@ public class App extends JFrame{
         JLabel lbInspire = setPageTitle("Inspire Page");
 
         // Buttons
-        JButton grateful = createMoodButton("Grateful", new Color(0xFFD97B));
         JButton calm = createMoodButton("Calm", new Color(0xA3D9FF));
+        JButton grateful = createMoodButton("Grateful", new Color(0xFFD97B));
         JButton hopeful = createMoodButton("Hopeful", new Color(0xFF8A80));
         JButton overthinking = createMoodButton("Overthinking", new Color(0xC2C2C2));
         JButton down = createMoodButton("Down", new Color(0xB39DDB));
@@ -550,7 +554,7 @@ public class App extends JFrame{
     private void btnLogoutAction(){
         btnLogout.addActionListener(e -> {
             int answer = JOptionPane.showConfirmDialog(null,"Are you sure?", "Logout", JOptionPane.OK_CANCEL_OPTION);
-            if(answer == 0){
+            if(answer == JOptionPane.YES_OPTION){
                 // For developing purposes
 //                System.out.println("===== From App ====");
 //                System.out.println("User: "  + currentUser);
@@ -617,20 +621,40 @@ public class App extends JFrame{
                     break;
 
                 case "STARDUST":
-                    bgMain = new Color(0x0D1B2A);
-                    bgSecondary = new Color(0x1B263B);
-                    bgTertiary = new Color(0x415A77);
+                    bgMain = new Color(0x0B1D2B);
+                    bgSecondary = new Color(0x122A40);
+                    bgTertiary = new Color(0x1C3A57);
 
-                    clrPrimary = new Color(0xE0E1DD);
-                    clrSecondary = new Color(0xAFCBFF);
-                    clrTertiary = new Color(0x748CAB);
+                    clrPrimary = new Color(0xE0F1FF);
+                    clrSecondary = new Color(0xAFC9DE);
+                    clrTertiary = new Color(0x6C8EA4);
 
-                    clrBlue = new Color(0x7AB8F5);
-                    clrRed = new Color(0xEF767A);
-                    clrYellow = new Color(0xF5D491);
-                    clrGreen = new Color(0x9AEBA3);
-                    clrPurple = new Color(0xC1A3FF);
-                    clrLightGray = new Color(0x2E4057);
+                    clrBlue = new Color(0x5FA8FF);
+                    clrRed = new Color(0xFF6B6B);
+                    clrYellow = new Color(0xFFD56B);
+
+                    clrGreen = new Color(0x5ED1B1);
+                    clrPurple = new Color(0xA48FEF);
+                    clrLightGray = new Color(0x2B3A4A);
+                    break;
+
+                case "DAWN":
+                    bgMain = new Color(0xFFF8F0);
+                    bgSecondary = new Color(0xF5EBDD);
+                    bgTertiary = new Color(0xEADAC8);
+
+                    clrPrimary = new Color(0x3E3B32);
+                    clrSecondary = new Color(0x7B6F5A);
+                    clrTertiary = new Color(0xB8AFA0);
+
+                    clrBlue = new Color(0xA77B5A);
+                    clrRed = new Color(0xC85A4A);
+                    clrYellow = new Color(0xD4B15F);
+
+                    clrGreen = new Color(0x88A66F);
+                    clrPurple = new Color(0x9C8AA5);
+                    clrLightGray = new Color(0xEFE8E1);
+
                     break;
 
                 default:
@@ -680,7 +704,7 @@ public class App extends JFrame{
             // check if text area is blank or there's a content
             if (!txtContent.getText().isBlank() && !(entryList.getSelectedIndex() >= 0)){
                 // If theres a text in txtContent
-                int confirm = JOptionPane.showConfirmDialog(null, "Do you want to save the text in text area?", "Save text", JOptionPane.YES_NO_OPTION);
+                int confirm = JOptionPane.showConfirmDialog(null, "You have unsaved text. Would you like to keep it?", "Keep Unsaved Text?", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     txtArea = txtContent.getText();
                 }
@@ -695,7 +719,7 @@ public class App extends JFrame{
             // Remove white space at the start and end
             lsTitle = lsTitle.trim();
             if (lsTitle.length() > 30){
-                JOptionPane.showMessageDialog(null, "Title should be less than 31", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Your title is too long. Please keep it under 31 characters.", "Title Too Long", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -714,6 +738,9 @@ public class App extends JFrame{
 
             // Append on the default list from JList in journalLayout
             ((DefaultListModel<String>) entryList.getModel()).add(0,newEntry);
+
+            // clean text content
+            txtContent.setText("");
         });
     }
 
@@ -723,13 +750,19 @@ public class App extends JFrame{
             int guiIndex = entryList.getSelectedIndex();
 
             if (guiIndex >= 0){
+                // if user want to really save
+                int agree = JOptionPane.showConfirmDialog(null, "Save changes to your journal entry?", "Save Changes", JOptionPane.OK_CANCEL_OPTION);
+                if (agree != JOptionPane.YES_OPTION){
+                    return;
+                }
+
                 int dataIndex = lsJournalContents.get(sessionID).size() - 1 - guiIndex;
                 // Update the entry
                 lsJournalContents.get(sessionID).set(dataIndex, txtContent.getText());
-                JOptionPane.showMessageDialog(null, "Journal entry updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Your journal entry was successfully updated.", "Entry Updated", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(null, "No entry selected to Update.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please select an entry to update.", "No Entry Selected", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
@@ -742,7 +775,17 @@ public class App extends JFrame{
                 int dataIndex = lsJournalContents.get(sessionID).size() - 1 - guiIndex;
                 System.out.println(dataIndex);
 
-                String newTitle = JOptionPane.showInputDialog(null, "Enter a new title");
+                String newTitle = JOptionPane.showInputDialog(null, "What would you like to name this entry?");
+                // If cancel
+                if (newTitle == null){
+                    return;
+                }
+
+                newTitle = newTitle.trim();
+                if (newTitle.isBlank()){
+                    JOptionPane.showMessageDialog(null, "Title can’t be empty. Please enter a valid title.", "Invalid Title", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
 
                 // Updating the array
                 lsJournalTitles.get(sessionID).set(dataIndex, newTitle);
@@ -754,10 +797,10 @@ public class App extends JFrame{
                 DefaultListModel<String> model = (DefaultListModel<String>) entryList.getModel();
                 String newListTag = lsJournalEntriesDate.get(sessionID).get(dataIndex) + ": " + newTitle;
                 model.setElementAt(newListTag, guiIndex);
-                JOptionPane.showMessageDialog(null, "Succesfully change the title", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "The title has been updated.", "Title Updated", JOptionPane.INFORMATION_MESSAGE);
 
             } else {
-                JOptionPane.showMessageDialog(null, "There's no selected entry.", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please select an entry to rename.", "No Entry Selected", JOptionPane.WARNING_MESSAGE);
             }
 
         });
@@ -769,20 +812,22 @@ public class App extends JFrame{
             int guiIndex = entryList.getSelectedIndex();
 
             if (guiIndex >= 0) {
-                int dataIndex = lsJournalContents.size() - 1 - guiIndex;
+                int dataIndex = lsJournalContents.get(sessionID).size() - 1 - guiIndex;
 
                 // Ask for confirmation before deletion
-                int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this entry?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+                int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this entry?", "Delete Entry", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
 
                     // Using dynamic array wouldn't leave blank array slot
                     lsJournalContents.get(sessionID).remove(dataIndex);
                     lsJournalTitles.get(sessionID).remove(dataIndex);
+                    lsJournalEntriesDate.get(sessionID).remove(dataIndex);
                     ((DefaultListModel<String>) entryList.getModel()).remove(guiIndex);
+                    txtContentTitle.setText("Select an entry");
                     txtContent.setText("");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "No entry selected to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please select an entry to delete.", "No Entry Selected", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
@@ -836,7 +881,7 @@ public class App extends JFrame{
     // Inspire mood button aesthetics
     private JButton createMoodButton(String text, Color bgColor){
         JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        button.setFont(new Font("SansSerif", Font.BOLD, 35));
         button.setForeground(new Color(0xFF1C1C1E));
         button.setBackground(bgColor);
         return button;
@@ -857,13 +902,13 @@ public class App extends JFrame{
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 descriptionLabel.setText(text);
-                descriptionLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
+                descriptionLabel.setFont(new Font("Segoe UI", Font.BOLD, 23));
                 descriptionLabel.setForeground(clrBlue);
                 button.setBackground(clrBlue);
             }
             public void mouseExited(MouseEvent e) {
                 descriptionLabel.setText("Hover over a button to learn more.");
-                descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+                descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 23));
                 descriptionLabel.setForeground(clrTertiary);
                 button.setBackground(bgSecondary);
             }

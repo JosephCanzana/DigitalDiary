@@ -36,12 +36,17 @@ public class Login extends JFrame {
     JPasswordField pwdConfirm;
 
     // Background colors
-    Color bgMain = Color.WHITE;
-    Color bgSecondary = new Color(0xFFF2F2F7);
-    Color bgTertiary = new Color(0xFFE5E5EA);
+    // Background Colors - Beige Theme
+    Color bgMain = new Color(0xFFF8F0);
+    Color bgSecondary = new Color(0xF5EBDD);
+    Color bgTertiary = new Color(0xEADAC8);
 
     // Text Colors
-    Color textPrimary = new Color(0xFF1C1C1E);
+    Color clrPrimary = new Color(0x3E3B32);
+    Color clrSecondary = new Color(0x7B6F5A);
+    Color clrTertiary = new Color(0xB8AFA0);
+    // Accent Color
+    Color clrBeige = new Color(0xA77B5A);
 
     public static boolean initialized = false;
 
@@ -63,7 +68,7 @@ public class Login extends JFrame {
         setMinimumSize(new Dimension(1150,710));
         getContentPane().setBackground(bgMain);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("Login");
+        setTitle("ReflectNote: Your mind, beautifully organized.");
 
         // Icon Logo
         ImageIcon icon = new ImageIcon("src/Icon/logo.png");
@@ -75,7 +80,7 @@ public class Login extends JFrame {
         // Creating the panel
         loginNavBar = new JPanel();
         loginMainForm = new JPanel(new CardLayout());
-        loginFooterForm = new JPanel();
+        loginFooterForm = new JPanel(new BorderLayout());
 
         // Set Color to the panel
         loginNavBar.setBackground(bgSecondary);
@@ -98,7 +103,7 @@ public class Login extends JFrame {
             setAdminAccount("Canzana", "12345678");
 //            setAdminAccount("Ferrer", "12345678");
 //            setAdminAccount("Dischoso", "12345678");
-//            setAdminAccount("Jayson", "12345678");
+//            setAdminAccount("Sir. Jayson", "12345678");
             initialized = true;
         }
 
@@ -108,6 +113,12 @@ public class Login extends JFrame {
 
         // Navigation bar call
         setNavigationBar();
+
+        // Footer
+        JLabel lbFooter = new JLabel("Ferrer - Canzana - Dischoso  |  ReflectNote © 2025", JLabel.CENTER);
+        lbFooter.setForeground(clrTertiary);
+        lbFooter.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        loginFooterForm.add(lbFooter, BorderLayout.CENTER);
 
         // Center the frame
         setLocationRelativeTo(null);
@@ -124,7 +135,7 @@ public class Login extends JFrame {
 
         // Create the title
         JLabel title = new JLabel("ReflectNote ||  ");
-        title.setForeground(textPrimary);
+        title.setForeground(clrPrimary);
         title.setFont(new Font("Segoe UI", Font.BOLD, 30));
 
         // Create the buttons
@@ -144,9 +155,23 @@ public class Login extends JFrame {
 
     // CONTENT PANEL SETUP
     private void loginLayout() {
-        // Create main login panel with GridLayout
-        plLogin = new JPanel(new GridBagLayout());
+
+        plLogin = new JPanel(new GridLayout(0,2,3,3));
         plLogin.setBackground(bgMain);
+
+        //Left side
+        ImageIcon poster = new ImageIcon("src/Icon/poster.png");
+
+        Image scaledImage = poster.getImage().getScaledInstance(650, 900, Image.SCALE_SMOOTH);
+        ImageIcon scaledPoster = new ImageIcon(scaledImage);
+
+        JLabel imageLabel = new JLabel(scaledPoster);
+        plLogin.add(imageLabel);
+
+        //RIght side
+        // Create main login panel with GridLayout
+        JPanel plRight = new JPanel(new GridBagLayout());
+        plRight.setBackground(bgMain);
 
         // GBC is basically like a cursor to change the position,size,anchor, and padding
         GridBagConstraints gbc = new GridBagConstraints();
@@ -154,39 +179,41 @@ public class Login extends JFrame {
         // Page title
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTH;
-        gbc.insets = new Insets(5,0,5,0); //top,left, bottom, right
+        gbc.insets = new Insets(10,0,10,0); //top,left, bottom, right
         JLabel lbLoginPage = setPageTitle("Login Page");
-        plLogin.add(lbLoginPage, gbc);
+        plRight.add(lbLoginPage, gbc);
 
         // Username label
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.WEST;
         lbUsername = createContentLabel("Username:");
-        plLogin.add(lbUsername, gbc);
+        plRight.add(lbUsername, gbc);
 
         // Username textbox
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         txtUsername = createContentTextField();
-        plLogin.add(txtUsername,gbc);
+        plRight.add(txtUsername,gbc);
 
         // Password Label
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         lbPassword = createContentLabel("Password:");
-        plLogin.add(lbPassword, gbc);
+        plRight.add(lbPassword, gbc);
 
         // Password input field
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         pwdLogin = createContentPasswordField();
-        plLogin.add(pwdLogin, gbc);
+        plRight.add(pwdLogin, gbc);
 
         //Login Button
         gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.NORTH;
         btnLogin = createConfirmButton("Login");
-        plLogin.add(btnLogin,gbc);
+        plRight.add(btnLogin,gbc);
+
+        plLogin.add(plRight);
 
         // action for submitting
         btnLoginAction();
@@ -198,10 +225,22 @@ public class Login extends JFrame {
 
     // Register layout
     private void registerLayout(){
-        // Create a JPanel for the register screen layout
-        plRegister = new JPanel();
-        plRegister.setLayout(new GridBagLayout());
+        plRegister = new JPanel(new GridLayout(0,2,3,3));
         plRegister.setBackground(bgMain);
+
+        //Left side
+        ImageIcon poster = new ImageIcon("src/Icon/poster.png");
+
+        Image scaledImage = poster.getImage().getScaledInstance(650, 900, Image.SCALE_SMOOTH);
+        ImageIcon scaledPoster = new ImageIcon(scaledImage);
+        JLabel imageLabel = new JLabel(scaledPoster);
+        plRegister.add(imageLabel);
+
+        // Right side
+        // Create a JPanel for the register screen layout
+        JPanel plRight = new JPanel();
+        plRight.setLayout(new GridBagLayout());
+        plRight.setBackground(bgMain);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -211,49 +250,50 @@ public class Login extends JFrame {
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.insets = new Insets(3,0,3,0); // top,left, bottom, right
         JLabel lblRegisterPage = setPageTitle("Register Page");
-        plRegister.add(lblRegisterPage, gbc);
+        plRight.add(lblRegisterPage, gbc);
 
         // Username label
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.WEST;
         lbUsernameRegister = createContentLabel("Username: ");
-        plRegister.add(lbUsernameRegister, gbc);
+        plRight.add(lbUsernameRegister, gbc);
 
         // Username text field
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         txtUsernameRegister = createContentTextField();
-        plRegister.add(txtUsernameRegister, gbc);
+        plRight.add(txtUsernameRegister, gbc);
 
         // Password Label
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         lbPasswordRegister = createContentLabel("Password: ");
-        plRegister.add(lbPasswordRegister, gbc);
+        plRight.add(lbPasswordRegister, gbc);
 
         // Register password field
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         pwdRegister = createContentPasswordField();
-        plRegister.add(pwdRegister, gbc);
+        plRight.add(pwdRegister, gbc);
 
         // Confirm label
         gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         lbConfirm = createContentLabel("Confirm Password: ");
-        plRegister.add(lbConfirm, gbc);
+        plRight.add(lbConfirm, gbc);
 
         // Confirm password field
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         pwdConfirm = createContentPasswordField();
-        plRegister.add(pwdConfirm, gbc);
+        plRight.add(pwdConfirm, gbc);
 
         // Register button
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.NORTH;
         btnRegister = createConfirmButton("Register");
-        plRegister.add(btnRegister, gbc);
+        plRight.add(btnRegister, gbc);
+        plRegister.add(plRight);
 
         // Action Button for submitting
         btnRegisterAction();
@@ -286,6 +326,12 @@ public class Login extends JFrame {
             String username = txtUsername.getText().trim(); // We used trim to remove white space at the end
             String password = new String(pwdLogin.getPassword());
 
+            // Check if all form is filled up
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter both your username and password.", "Incomplete Form", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             // Finding if user exist
             int index = 0; // for counting what index is target username for password
             boolean foundUser = false;
@@ -298,13 +344,13 @@ public class Login extends JFrame {
             }
             // Checker
             if (!foundUser) {
-                JOptionPane.showMessageDialog(this, "Can't find the username", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "We couldn't find an account with that username.", "User Not Found", JOptionPane.WARNING_MESSAGE);
                 return;
             }else if (password.length() < 8){
-                JOptionPane.showMessageDialog(null, "Invalid password length", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Passwords must be at least 8 characters long.", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                 return;
             } else if(!password.equals(PASSWORD.get(index))){
-                JOptionPane.showMessageDialog(this, "Wrong password", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "The password you entered is incorrect.", "Incorrect Password", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -332,19 +378,25 @@ public class Login extends JFrame {
             String password = new String(pwdRegister.getPassword());
             String confirmPassword = new String(pwdConfirm.getPassword());
 
+            // Check if all form is filled up
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please complete all fields to register.", "Incomplete Form", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             // Requirement checking
             for (String user : USERS){
                 if (username.equals(user)){
-                    JOptionPane.showMessageDialog(null, "The username already exist", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "That username is already taken. Please choose another.", "Username Unavailable", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
             }
 
             if (password.length() < 8){
-                JOptionPane.showMessageDialog(this, "Password character length should be equal or more than 8", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Password Too Short", JOptionPane.WARNING_MESSAGE);
                 return;
             }else if (!password.equals(confirmPassword)){
-                JOptionPane.showMessageDialog(null, "Your password and confirm password is not same", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Your passwords don’t match. Please try again.", "Password Mismatch", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -374,22 +426,20 @@ public class Login extends JFrame {
         // Creating nav button aesthetics
         JButton button = new JButton(text);
         button.setBackground(bgSecondary);
-        button.setForeground(Color.DARK_GRAY);
+        button.setForeground(clrSecondary);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         button.setBorder(null);
 
         // In button hover
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
-                button.setFont(new Font("Segoe UI", Font.BOLD, 20));
-                button.setForeground(new Color(0x006400));
+                button.setFont(new Font("Segoe UI", Font.BOLD, 19));
+                button.setForeground(clrBeige);
 
             }
             public void mouseExited(MouseEvent e) {
-                button.setFont(new Font("Segoe UI", Font.PLAIN, 19));
                 button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-                button.setForeground(Color.DARK_GRAY);
+                button.setForeground(clrSecondary);
             }
         });
         return button;
@@ -398,14 +448,15 @@ public class Login extends JFrame {
     private JLabel setPageTitle(String title){
         // Create the label for the home screen
         JLabel label = new JLabel(title);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 45));
-        label.setForeground(textPrimary);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 50));
+        label.setForeground(clrPrimary);
         return label;
     }
 
     private JLabel createContentLabel(String text){
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 42));
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        label.setForeground(clrPrimary);
         return label;
     }
 
@@ -413,6 +464,7 @@ public class Login extends JFrame {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 25));
         button.setSize(new Dimension(100,50));
+        button.setForeground(clrPrimary);
         button.setBackground(null);
         button.setOpaque(false);
         return button;
@@ -420,15 +472,19 @@ public class Login extends JFrame {
 
     private JTextField createContentTextField(){
         JTextField text = new JTextField();
-        text.setFont(new Font("Segoe UI", Font.PLAIN, 32));
-        text.setPreferredSize(new Dimension(600,65));
+        text.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        text.setPreferredSize(new Dimension(450,60));
+        text.setBorder(BorderFactory.createLineBorder(clrTertiary,1));
+        text.setBackground(bgMain);
         return text;
     }
 
     private JPasswordField createContentPasswordField(){
         JPasswordField password = new JPasswordField();
-        password.setFont(new Font("Segoe UI", Font.PLAIN, 32));
-        password.setPreferredSize(new Dimension(600,65));
+        password.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        password.setPreferredSize(new Dimension(450,60));
+        password.setBorder(BorderFactory.createLineBorder(clrTertiary,1));
+        password.setBackground(bgMain);
         return password;
     }
 
