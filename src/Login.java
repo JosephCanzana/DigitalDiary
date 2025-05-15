@@ -346,9 +346,6 @@ public class Login extends JFrame {
             if (!foundUser) {
                 JOptionPane.showMessageDialog(null, "We couldn't find an account with that username.", "User Not Found", JOptionPane.WARNING_MESSAGE);
                 return;
-            }else if (password.length() < 8){
-                JOptionPane.showMessageDialog(null, "Passwords must be at least 8 characters long.", "Invalid Password", JOptionPane.WARNING_MESSAGE);
-                return;
             } else if(!password.equals(PASSWORD.get(index))){
                 JOptionPane.showMessageDialog(null, "The password you entered is incorrect.", "Incorrect Password", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -363,6 +360,7 @@ public class Login extends JFrame {
 //                System.out.println("===== From Login ====");
 //                System.out.println("User: "  + currentUser);
 //                System.out.println("All list: \n" + lsJournalContents);
+//                System.out.println("User content List: " + lsJournalContents.get(sessionID));
 //                System.out.println("===== From Login ====");
                 new App();
             });

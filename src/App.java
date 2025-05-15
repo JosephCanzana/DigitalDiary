@@ -80,33 +80,76 @@ public class App extends JFrame{
     };
 
     String[] qtGrateful = {
-            "Give thanks in all circumstances; for this is God's will for you in Christ Jesus.\n– 1 Thessalonians 5:18",
-            "“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.” \n— Albert Einstein"
+            "\"Give thanks to the Lord, for he is good; his love endures forever.\" \n– 1 Chronicles 16:34",
+            "\"I will give thanks to you, Lord, with all my heart; I will tell of all your wonderful deeds.\" \n– Psalm 9:1",
+            "\"Give thanks in all circumstances; for this is God’s will for you in Christ Jesus.\" \n– 1 Thessalonians 5:18",
+            "\"Let them give thanks to the Lord for his unfailing love and his wonderful deeds for mankind.\" \n– Psalm 107:8",
+            "\"I waited patiently for the Lord; he turned to me and heard my cry… He set my feet on a rock and gave me a firm place to stand.\" \n– Psalm 40:1–2",
+            "\"Be thankful for what you have , you’ll end up having more.\" \n- Ferrer",
+            "\"Looking forward, I often see obstacles and hindrances. But after I face them and succeed, I realize how grateful I am to God for letting it happen — because He knows these challenges help me grow.  I mean, the game wouldn’t be fun without the challenge.\" \n- Canzana",
+            "\"No matter how deep the night, it always turns to day, eventually.\" \n— Brook",
+            "\"Acknowledging the good that you already have in your life is the foundation for all abundance.\" \n— Eckhart Tolle"
     };
 
     String[] qtCalm = {
-            "Trust in the Lord with all your heart and lean not on your own understanding.\n– Proverbs 3:5",
-            "“Calmness is the cradle of power.” — Josiah Gilbert Holland"
+            "\"Peace I leave with you; my peace I give you. Do not let your hearts be troubled and do not be afraid.\" \n– John 14:27",
+            "\"Be still, and know that I am God.\" \n– Psalm 46:10",
+            "\"In peace I will lie down and sleep, for you alone, Lord, make me dwell in safety.\" \n– Psalm 4:8",
+            "\"The Lord gives strength to his people; the Lord blesses his people with peace.\" \n– Psalm 29:11",
+            "\"I took a deep breath and listened to the old bray of my heart\" \n- Ferrer",
+            "\"You don’t have to control your thoughts. You just have to stop letting them control you.\" \n— Dan Millman",
+            "\"Calmness is something you come to realize you already have. You don’t need to act on what you haven’t practiced, or speak of knowledge you don’t possess. Just perform with what you know, and speak from what you truly own.\" \n- Canzana",
+            "\"Fear is not evil. It allows you to know your weaknesses. If you know your weaknesses, you can become stronger and gentler.\" \n— Gildarts Clive",
+            "\"Sometimes, the most productive thing you can do is relax.\" \n— Mark Black"
     };
 
     String[] qtHopeful = {
-            "“There’s no reason to look back when you have so much to look forward to.” — Kobe Bryant",
-            "For I know the plans I have for you... plans to give you hope and a future.\n– Jeremiah 29:11",
-
+            "\"For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.\" \n– Jeremiah 29:11",
+            "\"But those who hope in the Lord will renew their strength. They will soar on wings like eagles.\" \n– Isaiah 40:31",
+            "\"May the God of hope fill you with all joy and peace as you trust in him.\" \n– Romans 15:13",
+            "\"Be strong and take heart, all you who hope in the Lord.\" \n– Psalm 31:24",
+            "\"Now to him who is able to do immeasurably more than all we ask or imagine, according to his power that is at work within us\" \n- Ephesiana 3:20",
+            "\"I’ve always thought that a genius is someone who can do everything perfectly. But maybe a genius is someone who can devote themselves to something… and truly believe in it.\" \n- Kita Shinsuke",
+            "\"I’m built upon the small things I do everyday, and the end results are no more than a byproduct of that\" \n- Kita Shinsuke",
+            "\"Once you choose hope, anything’s impossible.\" \n- Ferrer",
+            "\"Be hopeful. If you improve by just 1% each day and make it a habit, it will eventually become second nature. Over time, that consistency builds into something far greater—something even bigger than your original dream. In fact, you might realize that you're not chasing the dream anymore; you're already living it, step by step.\" \n- Canzana",
+            "\"For every action, there is an equal and opposite reaction.\" \n- Isaac Newton"
     };
 
     String[] qtOverthinking = {
-            "“Stop worrying about what you can’t control. Shift your energy to what you can create.” \n— Roy T. Bennett",
+            "\"The thief come only to steal, kill and destroy; and I came that they may have life and have it abundantly.\" \n- John 10:10",
+            "\"Do not be anxious about anything, but in every situation… present your requests to God.\" \n– Philippians 4:6",
+            "\"Set your minds on things above, not on earthly things.\" \n– Colossians 3:2",
+            "\"Trust in the Lord with all your heart and lean not on your own understanding.\" \n– Proverbs 3:5",
+            "\"Overthinking kills your happiness.\" \n- Ferrer",
+            "\"Don’t overthink it. You don’t need to be great for everyone, because everyone has a different opinion of you. And if you start worrying about what others think, don't bother — they’re often too caught up in their own thoughts to focus on you.\" \n- Canzana",
+            "\"Don't believe everything you think. Thought is not reality; yet it is through thought our realities are created. Look deeper, question what you believe, and remember: you’re not your thoughts.\" \n- Nguyen Joseph",
+            "\"You'll never be criticized by someone doing more than you. You'll always be criticized by someone doing less. Remember that.\" \n- Denzel Washington",
+            "\"You can't think of the past. 'Why did I do that?' it'll just turn to anger. You also can't think about the future. 'Will it be okay?' It just turns to worry. In that case hold on for dear life! Stake your entire life in her and now. You will be alive.\""
     };
 
     String[] qtDown = {
-            "Everything negative—pressure, challenges—is all an opportunity for me to rise.\n– Kobe Bryant",
-            "“The Lord is near to the brokenhearted and saves the crushed in spirit.” \n — Psalm 34:18"
+            "\"Why, my soul, are you downcast? Put your hope in God, for I will yet praise him.\" \n– Psalm 42:11",
+            "\"He heals the brokenhearted and binds up their wounds.\" \n– Psalm 147:3",
+            "\"Even though I walk through the darkest valley, I will fear no evil, for you are with me.\" \n– Psalm 23:4",
+            "\"The Lord upholds all who fall and lifts up all who are bowed down.\" \n– Psalm 145:14",
+            "\"He who climbes the ladder must begin at the bottom\" \n- Ittetsu takeda",
+            "\"Every situation in life is temporary\" \n- Ferrer",
+            "\"Everything negative – pressure, challenges – is all an opportunity for me to rise.\" \n- Kobe Bryant",
+            "\"It’s okay to feel down — we’re only human. But remember, being down is just another challenge, an opportunity to grow stronger. It humbles you and reminds you that you’re never truly at the top, that there’s always room to improve, and that life’s big giants still stand ahead, waiting for you to surpass them.\" \n- Canzana",
+            "\"A person grows up when he's able to overcome hardships. Protection is important, but there are some things a person must learn on his own.\" \n— Jiraiya"
     };
 
     String[] qtOverwhelmed = {
-            "Great things come from hard work and perseverance. No excuses.\n– Kobe Bryant",
-            "“You don’t rise to the level of your expectations, you fall to the level of your training.” — Coach Kamogawa"
+            "\"Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the Lord your God is with you wherever you go.\" \n– Job 1:9",
+            "\"Come to me, all you who are weary and burdened, and I will give you rest.\" \n– Matthew 11:28",
+            "\"Cast your burden on the Lord, and he will sustain you.\" \n– Psalm 55:22",
+            "\"The Lord is close to the brokenhearted and saves those who are crushed in spirit.\" \n– Psalm 34:18",
+            "\"Feeling overwhelmed is often the result of trying to do everything at once.\" \n- Ferrer",
+            "\"Not everyone who works hard is rewarded. However! All of those succeed have worked hard!!\" \n- Kamogawa",
+            "\"God grant me the Serenity to accept the things I cannot Change; Courage to change the things I Can; And Wisdom to now the Difference.\" \n- Reinhold Neibhur",
+            "\"Don't think about what can happen in a month. Don't think about what can happen in a year. Just focus on the 24 hours in front of you and do what you can to get closer to where you want to be.\" \n- Eric Thomas",
+            "\"Feeling overwhelmed? Don’t be. Just focus on the next step. If you fall short, let God handle the rest. And even if it doesn’t work out, at least you tried—gained experience, built strength, and leveled up.\" \n- Canzana"
     };
 
 
@@ -474,7 +517,14 @@ public class App extends JFrame{
         // Quote label
         JTextArea quoteArea = new JTextArea(quote);
         quoteArea.setFont(new Font("Segoe UI", Font.PLAIN, 30));
-        quoteArea.setPreferredSize(new Dimension(1000, 150));
+//        System.out.println(quote.length());
+        if (quote.length() > 250){
+            quoteArea.setPreferredSize(new Dimension(1000, 250));
+        } else if (quote.length() > 90){
+            quoteArea.setPreferredSize(new Dimension(1000, 180));
+        } else {
+            quoteArea.setPreferredSize(new Dimension(1000, 100));
+        }
         quoteArea.setBackground(bgMain);
         quoteArea.setForeground(clrPrimary);
         quoteArea.setLineWrap(true);
@@ -750,7 +800,7 @@ public class App extends JFrame{
             int guiIndex = entryList.getSelectedIndex();
 
             if (guiIndex >= 0){
-                // if user want to really save
+                // ask user if he/she really want to save
                 int agree = JOptionPane.showConfirmDialog(null, "Save changes to your journal entry?", "Save Changes", JOptionPane.OK_CANCEL_OPTION);
                 if (agree != JOptionPane.YES_OPTION){
                     return;
@@ -770,7 +820,7 @@ public class App extends JFrame{
     private void editTitleAction(){
         btnEditTitle.addActionListener(e->{
             int guiIndex = entryList.getSelectedIndex();
-            System.out.println(guiIndex);
+//            System.out.println(guiIndex);
             if(guiIndex >= 0){
                 int dataIndex = lsJournalContents.get(sessionID).size() - 1 - guiIndex;
                 System.out.println(dataIndex);
