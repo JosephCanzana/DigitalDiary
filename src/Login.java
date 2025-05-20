@@ -66,6 +66,7 @@ public class Login extends JFrame {
         // Basic setup
         setSize(1150,710);
         setMinimumSize(new Dimension(1150,710));
+        setResizable(true);
         getContentPane().setBackground(bgMain);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("ReflectNote: Your mind, beautifully organized.");
@@ -88,9 +89,7 @@ public class Login extends JFrame {
         loginFooterForm.setBackground(bgTertiary);
 
         // Set Size
-        loginNavBar.setPreferredSize(new Dimension(100, 65));
-        loginMainForm.setPreferredSize(new Dimension(300, 450));
-        loginFooterForm.setPreferredSize(new Dimension(50, 50));
+        loginFooterForm.setPreferredSize(new Dimension(0, 50));
 
         // Adding and setting panel border location
         add(loginNavBar, BorderLayout.NORTH);
@@ -99,11 +98,15 @@ public class Login extends JFrame {
 
         // admin accounts
         if(!initialized) {
-            setAdminAccount("Admin", "12345678");
-            setAdminAccount("Canzana", "12345678");
+            int currentId = setAdminAccount("Admin", "12345678");
+            addAdminJournalContent(currentId, "2025-04-28", "Our first proposal is Rejected!", "4-28-2025 \n\n The project that was first declined is Readability and cipher which is cool project however we though t tahat the project would be just a CLI and maybe being rejected wasn't that bad after all.");
+            addAdminJournalContent(currentId, "2025-05-17", "It's close to being finish", "2025-05-17 \n\n As of writing this, developers are currently writing the admin account to mimick what it would look like to have an entry on different days.");
+
+            currentId = setAdminAccount("Canzana", "LifeIsFun");
+            addAdminJournalContent(currentId, "2024-04-17", "EcoSense: Capstone Project Defended!", "2024-04-17 \n\n The project that was not in option on three accepted title, I'm not even agreeing to do AI base trash bin. Since creating AI base trash bin would be close to impossible as a shs. But my groupmates is much more ambitious, and thank to that we have a project that gave us a project to be proud of.");
+
 //            setAdminAccount("Ferrer", "12345678");
 //            setAdminAccount("Dischoso", "12345678");
-//            setAdminAccount("Sir. Jayson", "12345678");
             initialized = true;
         }
 
@@ -161,7 +164,6 @@ public class Login extends JFrame {
 
         //Left side
         ImageIcon poster = new ImageIcon("src/Icon/poster.png");
-
         Image scaledImage = poster.getImage().getScaledInstance(650, 900, Image.SCALE_SMOOTH);
         ImageIcon scaledPoster = new ImageIcon(scaledImage);
 
@@ -486,11 +488,18 @@ public class Login extends JFrame {
         return password;
     }
 
-    private void setAdminAccount(String username, String password){
+    private int setAdminAccount(String username, String password){
         USERS.add(username);
         PASSWORD.add(password);
         lsJournalContents.add(new ArrayList<>());
         lsJournalTitles.add(new ArrayList<>());
         lsJournalEntriesDate.add(new ArrayList<>());
+        return USERS.size() - 1;
+    }
+
+    private void addAdminJournalContent(int userID, String date, String title, String contents){
+        lsJournalEntriesDate.get(userID).add(date);
+        lsJournalTitles.get(userID).add(title);
+        lsJournalContents.get(userID).add(contents);
     }
 }

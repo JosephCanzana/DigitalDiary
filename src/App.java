@@ -56,9 +56,11 @@ public class App extends JFrame{
     public static Color clrPurple = new Color(0x5856d6);
     public static Color clrLightGray = new Color(0xf2f2f7);
 
-
     // Current date
     LocalDate currentDate = LocalDate.now();
+
+    // Current Jornal index
+    int lastAccessedIndex = -1;
 
     // User's data
     // not directly edting it in login since it would be redundant to call Login everytime
@@ -76,7 +78,10 @@ public class App extends JFrame{
             "Trust the Lord with all your heart, submit to Him, and He will guide your paths. Proverbs 3:5-6",
             "I know the plans I have for you—plans to prosper you and give you hope and a future. - Jeremiah 29:11",
             "You lose because you only consider victory - Miyagi",
-
+            "Once we accept our limits, we go beyond them. -Albert Einstein",
+            "Anyone who has never made  a mistake has never tried anything new.-Albert Einstein",
+            "Great spirits have always encountered violent opposition from mediocre minds.-Albert Einstein",
+            "If I have seen further than others, it is by standing upon the shoulders of giants. - Isaac Newton"
     };
 
     String[] qtGrateful = {
@@ -181,9 +186,7 @@ public class App extends JFrame{
         footerPanel.setBackground(bgTertiary);
 
         // Set Size
-        navigationBar.setPreferredSize(new Dimension(100, 65));
-        mainContentPanel.setPreferredSize(new Dimension(300, 450));
-        footerPanel.setPreferredSize(new Dimension(50, 50));
+        footerPanel.setPreferredSize(new Dimension(0, 50));
 
         // Adding and setting panel border location
         add(navigationBar, BorderLayout.NORTH);
@@ -404,16 +407,18 @@ public class App extends JFrame{
 
         // title of the content
         txtContentTitle = setPageTitle("Select an entry");
-        txtContentTitle.setFont(new Font("Segoe UI", Font.PLAIN, 33));
+        txtContentTitle.setFont(new Font("Segoe UI", Font.PLAIN, 35));
         txtContentTitle.setForeground(clrPrimary);
 
         txtContent = new JTextArea();
-        txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 26));
+        txtContent.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         txtContent.setBorder(BorderFactory.createLineBorder(clrLightGray, 1));
         txtContent.setBackground(bgMain);
         txtContent.setForeground(clrSecondary);
         txtContent.setLineWrap(true); // makes a new line after reaching end (wrap)
         txtContent.setWrapStyleWord(true); // wrap word by word
+        txtContent.setEnabled(false);
+        txtContent.setText("Please select a journal entry to view or edit.");
 
         JScrollPane textScroll = new JScrollPane(txtContent); // To make it scrollable
 
@@ -558,14 +563,79 @@ public class App extends JFrame{
     }
 
 
-    private void aboutLayout(){
-        // Create a JPanel for the about screen layout
-        plAbout = new JPanel();
-        plAbout.setLayout(new BorderLayout());
+    private void aboutLayout() {
+        plAbout = new JPanel(new BorderLayout());
         plAbout.setBackground(bgMain);
 
-        JLabel lbAbout = setPageTitle("About Page");
-        plAbout.add(lbAbout, BorderLayout.NORTH);
+        // Title
+        JLabel title = new JLabel("About Reflect Note");
+        title.setFont(new Font("SansSerif", Font.BOLD, 30));
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setForeground(clrPrimary);
+
+        // About info
+        String aboutText = """
+        TYPE: Digital Diary System
+        
+        DESCRIPTION:
+        Reflect Note is a minimal, user-friendly digital diary application
+        built with Java Swing. It offers a distraction-free interface,
+        emotion-based quotes, and intuitive features for writing and managing
+        daily reflections.
+        
+        FEATURES:
+        • Multi-user login support
+        • Organized viewing of past entries
+        • Create, read, update, and delete (CRUD) notes
+        • Theme switching with clean aesthetics
+        • Inspirational quotes based on mood
+        
+        TECHNOLOGY:
+        • Language: Java
+        • GUI: javax.swing, java.awt
+        • Action Handling: java.awt
+        • Event Handling: java.awt.event
+        • Utilities: java.util, java.time.LocalDate
+        
+        LIMITATIONS:
+        • No SQL or database integration
+        • Two main forms with fixed logic
+        • Uses arrays and ArrayList for storage
+        • Layout is fixed-size (not responsive)
+        
+        PROJECT INFO:
+        • Course: Intermediate Programming (Final Project)
+        • Year: 2024–2025
+        • Institution: Holy Cross College
+        • Professor: Sir. Jayson Ramirez
+        
+        DEVELOPED BY:
+        - Phomela Ferrer     | Flowchart Design
+        - Anthony Dischoso   | Algorithm Step by Step
+        - Joseph Canzana     | System Programming
+        
+        CONTACT:
+        • 14462018@holycross.edu.ph
+        • 77562024@holycross.edu.ph
+        • 78722024@holycross.edu.ph
+        """;
+
+        JTextArea aboutArea = new JTextArea(aboutText);
+        aboutArea.setEditable(false);
+        aboutArea.setWrapStyleWord(true);
+        aboutArea.setLineWrap(true);
+        aboutArea.setBackground(bgMain);
+        aboutArea.setForeground(clrSecondary);
+        aboutArea.setFont(new Font("SansSerif", Font.PLAIN, 24));
+        aboutArea.setMargin(new Insets(15, 50, 30, 50)); // Inner padding
+
+        JScrollPane scrollText = new JScrollPane(aboutArea);
+        scrollText.setBorder(null);
+        scrollText.setBackground(bgMain);
+
+        // Add components
+        plAbout.add(title, BorderLayout.NORTH);
+        plAbout.add(scrollText, BorderLayout.CENTER);
 
         mainContentPanel.add(plAbout, "ABOUT");
     }
@@ -737,10 +807,14 @@ public class App extends JFrame{
     // ==== JOURNAL ENTRIES ====
     private void entryListJournalListener(){
         entryList.addListSelectionListener(e -> {
+            txtContent.setEnabled(true);
             int guiIndex = entryList.getSelectedIndex();
             if (guiIndex >= 0) {
                 // since the list is ascending need to get the last array
                 int dataIndex = lsJournalTitles.get(sessionID).size() - 1 - guiIndex;
+                checkLastEntry(dataIndex);
+
+                // Set text
                 txtContentTitle.setText(lsJournalTitles.get(sessionID).get(dataIndex).trim());
                 txtContent.setText(lsJournalContents.get(sessionID).get(dataIndex).trim());
             }
@@ -750,47 +824,37 @@ public class App extends JFrame{
     private void btnNewJournalAction(){
         btnNew.addActionListener(e->{
 
-            String txtArea = "";
-            // check if text area is blank or there's a content
-            if (!txtContent.getText().isBlank() && !(entryList.getSelectedIndex() >= 0)){
-                // If theres a text in txtContent
-                int confirm = JOptionPane.showConfirmDialog(null, "You have unsaved text. Would you like to keep it?", "Keep Unsaved Text?", JOptionPane.YES_NO_OPTION);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    txtArea = txtContent.getText();
-                }
-            }
-
             // Input a title
             String lsTitle = JOptionPane.showInputDialog(null, "Enter a Title: ");
             // pressed Cancel
             if (lsTitle == null){
                 return;
             }
+
             // Remove white space at the start and end
             lsTitle = lsTitle.trim();
             if (lsTitle.length() > 30){
                 JOptionPane.showMessageDialog(null, "Your title is too long. Please keep it under 31 characters.", "Title Too Long", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
-            // Create a start up text and list title
-            String newEntry;
-            if(lsTitle.isBlank()){
-                newEntry = "Date: " + currentDate;
-            }else {
-                newEntry = currentDate + ": " + lsTitle;
+            if (lsTitle.isBlank()){
+                JOptionPane.showMessageDialog(null, "Title can't be empty.", "Title is empty", JOptionPane.WARNING_MESSAGE);
+                return;
             }
 
+            // Create a start up text and list title
+            String newEntry = currentDate + ": " + lsTitle;;
+
             // Update temporary data
-            lsJournalContents.get(sessionID).add(newEntry + "\n\n" + txtArea);
+            lsJournalContents.get(sessionID).add(String.valueOf(currentDate));
             lsJournalEntriesDate.get(sessionID).add(String.valueOf(currentDate));
             lsJournalTitles.get(sessionID).add(lsTitle);
 
             // Append on the default list from JList in journalLayout
             ((DefaultListModel<String>) entryList.getModel()).add(0,newEntry);
 
-            // clean text content
-            txtContent.setText("");
+            // go to the added journal
+            entryList.setSelectedIndex(lsJournalContents.get(sessionID).size());
         });
     }
 
@@ -874,7 +938,10 @@ public class App extends JFrame{
                     lsJournalEntriesDate.get(sessionID).remove(dataIndex);
                     ((DefaultListModel<String>) entryList.getModel()).remove(guiIndex);
                     txtContentTitle.setText("Select an entry");
-                    txtContent.setText("");
+                    // reset
+                    txtContent.setEnabled(false);
+                    txtContent.setText("Please select a journal entry to view or edit.");
+                    lastAccessedIndex = -1;
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an entry to delete.", "No Entry Selected", JOptionPane.ERROR_MESSAGE);
@@ -963,6 +1030,40 @@ public class App extends JFrame{
                 button.setBackground(bgSecondary);
             }
         });
+    }
+
+    private void checkLastEntry(int currentDataIndex) {
+
+        // Since the default last access is in negative and in every delete it was reset in -1
+        if (lastAccessedIndex < 0) {
+            lastAccessedIndex = currentDataIndex;
+            return;
+        }
+
+        String lastAccessedText;
+        try {
+            lastAccessedText = lsJournalContents.get(sessionID).get(lastAccessedIndex).trim();
+        } catch (IndexOutOfBoundsException e) {
+            lastAccessedIndex = currentDataIndex;
+            System.out.println("Out of Index:" +  lastAccessedIndex);
+            return;
+        }
+
+        // Remove white space for consistency
+        String txtCurrentState = txtContent.getText().trim();
+
+        // CHeck if the text in text area is the same in array
+        if (!Objects.equals(lastAccessedText, txtCurrentState)) {
+            int ans = JOptionPane.showConfirmDialog(null, "You have changes on your current content, do you want to update it?", "Unsaved Changes", JOptionPane.OK_CANCEL_OPTION);
+
+            if (ans == JOptionPane.YES_OPTION) {
+                lsJournalContents.get(sessionID).set(lastAccessedIndex, txtContent.getText());
+                JOptionPane.showMessageDialog(null, "Your journal entry was successfully updated.", "Entry Updated", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+        // Update after check
+        lastAccessedIndex = currentDataIndex;
     }
 
     // Go to login first
