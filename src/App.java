@@ -204,8 +204,8 @@ public class App extends JFrame{
 
         // Footer
         JLabel lbFooter = new JLabel("Ferrer - Canzana - Dischoso  |  ReflectNote © 2025", JLabel.CENTER);
+        setLabelFontSize(lbFooter, "SansSerif", Font.PLAIN, 12);
         lbFooter.setForeground(clrTertiary);
-        lbFooter.setFont(new Font("SansSerif", Font.PLAIN, 13));
         footerPanel.add(lbFooter, BorderLayout.CENTER);
 
         setLocationRelativeTo(null); // For Centering
@@ -216,12 +216,12 @@ public class App extends JFrame{
     // NAVIGATION BAR TOP PANEL SETUP
     private void setNavigationBar(){
         // Set navigation bar layout to FlowLayout (left aligned)
-        navigationBar.setLayout(new FlowLayout(FlowLayout.LEFT, 22, 10));
+        navigationBar.setLayout(new FlowLayout(FlowLayout.LEFT, 22, 14));
 
         // Create the title
         JLabel title = new JLabel("ReflectNote ||  ");
         title.setForeground(clrPrimary);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        setLabelFontSize(title, "Segoe UI", Font.BOLD, 30);
 
         // Create the buttons
         btnHome = createNavButton("Home", clrSecondary);
@@ -259,21 +259,21 @@ public class App extends JFrame{
         // Username
         gbc.gridy = 0;
         JLabel lbUsername = new JLabel("Welcome, " + currentUser);
-        lbUsername.setFont(new Font("Segoe UI", Font.PLAIN, 40));
+        setLabelFontSize(lbUsername, "Segoe UI", Font.PLAIN,  40);
         lbUsername.setForeground(clrSecondary);
         plHome.add(lbUsername, gbc);
 
         // Title
         gbc.gridy = 1;
         JLabel lbHome = new JLabel("ReflectNote");
-        lbHome.setFont(new Font("Segoe UI", Font.BOLD, 85));
+        setLabelFontSize(lbHome, "Segoe UI", Font.BOLD, 85);
         lbHome.setForeground(clrPrimary);
         plHome.add(lbHome, gbc);
 
         // Tagline
         gbc.gridy = 2;
         JLabel lbTagline = new JLabel("Your mind, beautifully organized.");
-        lbTagline.setFont(new Font("Segoe UI", Font.ITALIC, 35));
+        setLabelFontSize(lbTagline,"Segoe UI", Font.ITALIC, 35);
         lbTagline.setForeground(clrTertiary);
         plHome.add(lbTagline, gbc);
 
@@ -283,14 +283,14 @@ public class App extends JFrame{
         Random random = new Random();
         int randomQuoteInx = random.nextInt(homeQuote.length);
         JLabel lbRandomQuote = new JLabel("\"" + homeQuote[randomQuoteInx] + "\"");
-        lbRandomQuote.setFont(new Font("Georgia", Font.ITALIC, 25));
+        setLabelFontSize(lbRandomQuote,"Georgia", Font.ITALIC, 25);
         lbRandomQuote.setForeground(clrSecondary);
         plHome.add(lbRandomQuote, gbc);
 
         // Date
         gbc.gridy = 4;
         JLabel lbDate = new JLabel(currentDate.toString());
-        lbDate.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        setLabelFontSize(lbDate, "Segoe UI", Font.PLAIN, 30);
         lbDate.setForeground(clrBlue);
         plHome.add(lbDate, gbc);
 
@@ -343,7 +343,7 @@ public class App extends JFrame{
                 btnChangeTheme.setText("\uD83C\uDF05 Dawn mode"); // 🌅
                 break;
         }
-        btnChangeTheme.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        setButtonFontSize(btnChangeTheme,"SansSerif", Font.PLAIN, 18);
         btnChangeTheme.setBackground(clrLightGray);
         btnChangeTheme.setForeground(clrPrimary);
         plHome.add(btnChangeTheme, gbc);
@@ -406,8 +406,8 @@ public class App extends JFrame{
         rightPanel.setBackground(bgMain);
 
         // title of the content
-        txtContentTitle = setPageTitle("Select an entry");
-        txtContentTitle.setFont(new Font("Segoe UI", Font.PLAIN, 35));
+        txtContentTitle = new JLabel("Select an entry", JLabel.CENTER);
+        setLabelFontSize(txtContentTitle, "Segoe UI", Font.PLAIN, 33);
         txtContentTitle.setForeground(clrPrimary);
 
         txtContent = new JTextArea();
@@ -515,20 +515,22 @@ public class App extends JFrame{
                 break;
         }
 
-        JLabel qtTitle = setPageTitle(mood);
+        JLabel qtTitle = new JLabel(mood, JLabel.CENTER);
+        qtTitle.setFont(new Font("Segoe UI", Font.BOLD, 60));
+        qtTitle.setForeground(clrPrimary);
         quoteCard.add(qtTitle, gbc);
 
         gbc.gridy = 1;
         // Quote label
         JTextArea quoteArea = new JTextArea(quote);
-        quoteArea.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        quoteArea.setFont(new Font("Segoe UI", Font.PLAIN, 40));
 //        System.out.println(quote.length());
         if (quote.length() > 250){
-            quoteArea.setPreferredSize(new Dimension(1000, 250));
+            quoteArea.setPreferredSize(new Dimension(1000, 330));
         } else if (quote.length() > 90){
-            quoteArea.setPreferredSize(new Dimension(1000, 180));
+            quoteArea.setPreferredSize(new Dimension(1000, 210));
         } else {
-            quoteArea.setPreferredSize(new Dimension(1000, 100));
+            quoteArea.setPreferredSize(new Dimension(1000, 160));
         }
         quoteArea.setBackground(bgMain);
         quoteArea.setForeground(clrPrimary);
@@ -539,11 +541,12 @@ public class App extends JFrame{
         quoteCard.add(quoteArea, gbc);
 
         // Your button logic here (already existing)
-        JButton backButton = createJornalOptionButton("Back");
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Segoe UI", Font.PLAIN, 30));
         backButton.setForeground(clrBlue);
-        //removing background(changing to bgwhite) and border that come with the create option button
         backButton.setBackground(bgMain);
         backButton.setBorder(null);
+
         // Add action listener for the back button if needed
         backButton.addActionListener(e -> {
             CardLayout cl = (CardLayout) mainContentPanel.getLayout();
@@ -599,9 +602,7 @@ public class App extends JFrame{
         
         LIMITATIONS:
         • No SQL or database integration
-        • Two main forms with fixed logic
         • Uses arrays and ArrayList for storage
-        • Layout is fixed-size (not responsive)
         
         PROJECT INFO:
         • Course: Intermediate Programming (Final Project)
@@ -963,7 +964,7 @@ public class App extends JFrame{
     private JLabel setPageTitle(String title){
         // Create the label for the home screen
         JLabel label = new JLabel(title, JLabel.CENTER);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        setLabelFontSize(label, "Segoe UI", Font.BOLD, 40);
         label.setForeground(clrPrimary);
         return label;
     }
@@ -974,13 +975,13 @@ public class App extends JFrame{
         JButton button = new JButton(text);
         button.setBackground(bgSecondary);
         button.setForeground(fgColor);
-        button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        setButtonFontSize(button, "Segoe UI", Font.PLAIN, 17);
         button.setBorder(null);
 
         // In button hover
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                button.setFont(new Font("Segoe UI", Font.BOLD, 19));
+                button.setFont(new Font("Segoe UI", Font.BOLD, button.getFont().getSize() + 1));
                 if(text == "Logout"){
                     button.setForeground(clrRed);
                 } else {
@@ -988,7 +989,7 @@ public class App extends JFrame{
                 }
             }
             public void mouseExited(MouseEvent e) {
-                button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+                button.setFont(new Font("Segoe UI", Font.PLAIN, button.getFont().getSize() - 1));
                 button.setForeground(fgColor);
             }
         });
@@ -998,7 +999,7 @@ public class App extends JFrame{
     // Inspire mood button aesthetics
     private JButton createMoodButton(String text, Color bgColor){
         JButton button = new JButton(text);
-        button.setFont(new Font("SansSerif", Font.BOLD, 35));
+        setButtonFontSize(button, "SansSerif", Font.BOLD, 38);
         button.setForeground(new Color(0xFF1C1C1E));
         button.setBackground(bgColor);
         return button;
@@ -1007,7 +1008,7 @@ public class App extends JFrame{
     // Journal options button
     private JButton createJornalOptionButton(String text){
         JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        setButtonFontSize(button, "Segoe UI", Font.PLAIN, 20);
         button.setForeground(clrPrimary);
         button.setBackground(bgSecondary);
         return button;
@@ -1064,6 +1065,40 @@ public class App extends JFrame{
 
         // Update after check
         lastAccessedIndex = currentDataIndex;
+    }
+
+    private void setLabelFontSize(JLabel label, String font, int fontStyle, int size) {
+        this.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int maxSize = (int) (size * 0.40) + size;
+
+                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                    // Window is maximized
+                    label.setFont(new Font(font, fontStyle, maxSize));
+                    footerPanel.setPreferredSize(new Dimension(0, 60));
+                } else {
+                    // Window is in normal state
+                    label.setFont(new Font(font, fontStyle, size));
+                    footerPanel.setPreferredSize(new Dimension(0, 50));
+                }
+            }
+        });
+    }
+
+    private void setButtonFontSize(JButton button, String font, int fontStyle, int size) {
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int maxSize = (int) (size * 0.40) + size;
+
+                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                    // Window is maximized
+                    button.setFont(new Font(font, fontStyle, maxSize));
+                } else {
+                    // Window is in normal state
+                    button.setFont(new Font(font, fontStyle, size));
+                }
+            }
+        });
     }
 
     // Go to login first

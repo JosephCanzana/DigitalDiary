@@ -66,7 +66,7 @@ public class Login extends JFrame {
         // Basic setup
         setSize(1150,710);
         setMinimumSize(new Dimension(1150,710));
-        setResizable(true);
+//        setResizable(false);
         getContentPane().setBackground(bgMain);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("ReflectNote: Your mind, beautifully organized.");
@@ -101,6 +101,8 @@ public class Login extends JFrame {
             int currentId = setAdminAccount("Admin", "12345678");
             addAdminJournalContent(currentId, "2025-04-28", "Our first proposal is Rejected!", "4-28-2025 \n\n The project that was first declined is Readability and cipher which is cool project however we though t tahat the project would be just a CLI and maybe being rejected wasn't that bad after all.");
             addAdminJournalContent(currentId, "2025-05-17", "It's close to being finish", "2025-05-17 \n\n As of writing this, developers are currently writing the admin account to mimick what it would look like to have an entry on different days.");
+            addAdminJournalContent(currentId, "2025-05-21", "Added a \"Responsive design\"", "2025-05-21 \n\n This is during exam day exactly 11:27 as of updating the admin account and added a responsive like feature to make the app clean like it would get the max size of window and if the current app window is equal to that then change the font size by 40%(as of writing maybe it would change)");
+
 
             currentId = setAdminAccount("Canzana", "LifeIsFun");
             addAdminJournalContent(currentId, "2024-04-17", "EcoSense: Capstone Project Defended!", "2024-04-17 \n\n The project that was not in option on three accepted title, I'm not even agreeing to do AI base trash bin. Since creating AI base trash bin would be close to impossible as a shs. But my groupmates is much more ambitious, and thank to that we have a project that gave us a project to be proud of.");
@@ -120,7 +122,7 @@ public class Login extends JFrame {
         // Footer
         JLabel lbFooter = new JLabel("Ferrer - Canzana - Dischoso  |  ReflectNote © 2025", JLabel.CENTER);
         lbFooter.setForeground(clrTertiary);
-        lbFooter.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        setLabelFontSize(lbFooter, "SansSerif", Font.PLAIN, 12);
         loginFooterForm.add(lbFooter, BorderLayout.CENTER);
 
         // Center the frame
@@ -134,12 +136,12 @@ public class Login extends JFrame {
     // NAVIGATION BAR
     private void setNavigationBar(){
         // Set navigation bar layout to FlowLayout (left aligned)
-        loginNavBar.setLayout(new FlowLayout(FlowLayout.LEFT, 22, 10));
+        loginNavBar.setLayout(new FlowLayout(FlowLayout.LEFT, 22, 13));
 
         // Create the title
         JLabel title = new JLabel("ReflectNote ||  ");
         title.setForeground(clrPrimary);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        setLabelFontSize(title, "Segoe UI", Font.BOLD, 30);
 
         // Create the buttons
         btnLoginNav = createNavButton("Login");
@@ -427,18 +429,18 @@ public class Login extends JFrame {
         JButton button = new JButton(text);
         button.setBackground(bgSecondary);
         button.setForeground(clrSecondary);
-        button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        setButtonFontSize(button, "Segoe UI", Font.PLAIN, 17);
         button.setBorder(null);
 
         // In button hover
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                button.setFont(new Font("Segoe UI", Font.BOLD, 19));
+                button.setFont(new Font("Segoe UI", Font.BOLD, button.getFont().getSize() + 1));
                 button.setForeground(clrBeige);
 
             }
             public void mouseExited(MouseEvent e) {
-                button.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+                button.setFont(new Font("Segoe UI", Font.PLAIN, button.getFont().getSize() - 1));
                 button.setForeground(clrSecondary);
             }
         });
@@ -448,21 +450,21 @@ public class Login extends JFrame {
     private JLabel setPageTitle(String title){
         // Create the label for the home screen
         JLabel label = new JLabel(title);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 50));
+        setLabelFontSize(label, "Segoe UI", Font.BOLD, 50);
         label.setForeground(clrPrimary);
         return label;
     }
 
     private JLabel createContentLabel(String text){
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        setLabelFontSize(label, "Segoe UI", Font.PLAIN, 30);
         label.setForeground(clrPrimary);
         return label;
     }
 
     private JButton createConfirmButton(String text){
         JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.PLAIN, 25));
+        setButtonFontSize(button, "Segoe UI", Font.PLAIN, 25);
         button.setSize(new Dimension(100,50));
         button.setForeground(clrPrimary);
         button.setBackground(null);
@@ -472,8 +474,7 @@ public class Login extends JFrame {
 
     private JTextField createContentTextField(){
         JTextField text = new JTextField();
-        text.setFont(new Font("Segoe UI", Font.PLAIN, 30));
-        text.setPreferredSize(new Dimension(450,60));
+        setTextFieldSize(text, "Segoe UI", Font.PLAIN, 30, 450, 60);
         text.setBorder(BorderFactory.createLineBorder(clrTertiary,1));
         text.setBackground(bgMain);
         return text;
@@ -481,8 +482,7 @@ public class Login extends JFrame {
 
     private JPasswordField createContentPasswordField(){
         JPasswordField password = new JPasswordField();
-        password.setFont(new Font("Segoe UI", Font.PLAIN, 30));
-        password.setPreferredSize(new Dimension(450,60));
+        setPasswordFieldSize(password, "Segoe UI", Font.PLAIN, 30, 450, 60);
         password.setBorder(BorderFactory.createLineBorder(clrTertiary,1));
         password.setBackground(bgMain);
         return password;
@@ -501,5 +501,79 @@ public class Login extends JFrame {
         lsJournalEntriesDate.get(userID).add(date);
         lsJournalTitles.get(userID).add(title);
         lsJournalContents.get(userID).add(contents);
+    }
+
+    private void setLabelFontSize(JLabel label, String font, int fontStyle, int size) {
+        this.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int maxSize = (int) (size * 0.40) + size;
+
+                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                    // Window is maximized
+                    label.setFont(new Font(font, fontStyle, maxSize));
+                    loginFooterForm.setPreferredSize(new Dimension(0, 60));
+                } else {
+                    // Window is in normal state
+                    label.setFont(new Font(font, fontStyle, size));
+                    loginFooterForm.setPreferredSize(new Dimension(0, 50));
+                }
+            }
+        });
+    }
+
+    private void setButtonFontSize(JButton button, String font, int fontStyle, int size) {
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int maxSize = (int) (size * 0.40) + size;
+
+                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                    // Window is maximized
+                    button.setFont(new Font(font, fontStyle, maxSize));
+                } else {
+                    // Window is in normal state
+                    button.setFont(new Font(font, fontStyle, size));
+                }
+            }
+        });
+    }
+
+    private void setTextFieldSize(JTextField txtField, String font, int fontStyle, int fontSize, int ySize, int xSize) {
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int maxFontSize = (int) (fontSize * 0.40) + fontSize;
+                int maxFieldSizeX = (int) (xSize * 0.40) + xSize;
+                int maxFieldSizeY = (int) (ySize * 0.40) + ySize;
+
+                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                    // Window is maximized
+                    txtField.setFont(new Font(font, fontStyle, maxFontSize));
+                    txtField.setPreferredSize(new Dimension(maxFieldSizeY, maxFieldSizeX));
+                } else {
+                    // Window is in normal state
+                    txtField.setFont(new Font(font, fontStyle, fontSize));
+                    txtField.setPreferredSize(new Dimension(ySize, xSize));
+                }
+            }
+        });
+    }
+
+    private void setPasswordFieldSize(JPasswordField pwdField, String font, int fontStyle, int fontSize, int ySize, int xSize) {
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int maxFontSize = (int) (fontSize * 0.40) + fontSize;
+                int maxFieldSizeX = (int) (xSize * 0.40) + xSize;
+                int maxFieldSizeY = (int) (ySize * 0.40) + ySize;
+
+                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                    // Window is maximized
+                    pwdField.setFont(new Font(font, fontStyle, maxFontSize));
+                    pwdField.setPreferredSize(new Dimension(maxFieldSizeY, maxFieldSizeX));
+                } else {
+                    // Window is in normal state
+                    pwdField.setFont(new Font(font, fontStyle, fontSize));
+                    pwdField.setPreferredSize(new Dimension(ySize, xSize));
+                }
+            }
+        });
     }
 }
