@@ -146,10 +146,10 @@ public class App extends JFrame{
     };
 
     String[] qtOverwhelmed = {
-            "\"Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the Lord your God is with you wherever you go.\" \n– Job 1:9",
+            "\"Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the Lord your God is with you wherever you go.\" – Job 1:9",
             "\"Come to me, all you who are weary and burdened, and I will give you rest.\" \n– Matthew 11:28",
             "\"Cast your burden on the Lord, and he will sustain you.\" \n– Psalm 55:22",
-            "\"The Lord is close to the brokenhearted and saves those who are crushed in spirit.\" \n– Psalm 34:18",
+            "\"The Lord is close to the brokenhearted and saves those who are crushed in spirit.\"   – Psalm 34:18",
             "\"Feeling overwhelmed is often the result of trying to do everything at once.\" \n- Ferrer",
             "\"Not everyone who works hard is rewarded. However! All of those succeed have worked hard!!\" \n- Kamogawa",
             "\"God grant me the Serenity to accept the things I cannot Change; Courage to change the things I Can; And Wisdom to now the Difference.\" \n- Reinhold Neibhur",
@@ -203,8 +203,8 @@ public class App extends JFrame{
         aboutLayout();
 
         // Footer
-        JLabel lbFooter = new JLabel("Ferrer - Canzana - Dischoso  |  ReflectNote © 2025", JLabel.CENTER);
-        setLabelFontSize(lbFooter, "SansSerif", Font.PLAIN, 12);
+        JLabel lbFooter = new JLabel("Ferrer - Canzana - Dichoso  |  ReflectNote © 2025", JLabel.CENTER);
+        setLabelMaxSize(lbFooter, "SansSerif", Font.PLAIN, 12);
         lbFooter.setForeground(clrTertiary);
         footerPanel.add(lbFooter, BorderLayout.CENTER);
 
@@ -221,7 +221,7 @@ public class App extends JFrame{
         // Create the title
         JLabel title = new JLabel("ReflectNote ||  ");
         title.setForeground(clrPrimary);
-        setLabelFontSize(title, "Segoe UI", Font.BOLD, 30);
+        setLabelMaxSize(title, "Segoe UI", Font.BOLD, 30);
 
         // Create the buttons
         btnHome = createNavButton("Home", clrSecondary);
@@ -259,21 +259,21 @@ public class App extends JFrame{
         // Username
         gbc.gridy = 0;
         JLabel lbUsername = new JLabel("Welcome, " + currentUser);
-        setLabelFontSize(lbUsername, "Segoe UI", Font.PLAIN,  40);
+        setLabelMaxSize(lbUsername, "Segoe UI", Font.PLAIN,  40);
         lbUsername.setForeground(clrSecondary);
         plHome.add(lbUsername, gbc);
 
         // Title
         gbc.gridy = 1;
         JLabel lbHome = new JLabel("ReflectNote");
-        setLabelFontSize(lbHome, "Segoe UI", Font.BOLD, 85);
+        setLabelMaxSize(lbHome, "Segoe UI", Font.BOLD, 85);
         lbHome.setForeground(clrPrimary);
         plHome.add(lbHome, gbc);
 
         // Tagline
         gbc.gridy = 2;
         JLabel lbTagline = new JLabel("Your mind, beautifully organized.");
-        setLabelFontSize(lbTagline,"Segoe UI", Font.ITALIC, 35);
+        setLabelMaxSize(lbTagline,"Segoe UI", Font.ITALIC, 35);
         lbTagline.setForeground(clrTertiary);
         plHome.add(lbTagline, gbc);
 
@@ -283,14 +283,14 @@ public class App extends JFrame{
         Random random = new Random();
         int randomQuoteInx = random.nextInt(homeQuote.length);
         JLabel lbRandomQuote = new JLabel("\"" + homeQuote[randomQuoteInx] + "\"");
-        setLabelFontSize(lbRandomQuote,"Georgia", Font.ITALIC, 25);
+        setLabelMaxSize(lbRandomQuote,"Georgia", Font.ITALIC, 25);
         lbRandomQuote.setForeground(clrSecondary);
         plHome.add(lbRandomQuote, gbc);
 
         // Date
         gbc.gridy = 4;
         JLabel lbDate = new JLabel(currentDate.toString());
-        setLabelFontSize(lbDate, "Segoe UI", Font.PLAIN, 30);
+        setLabelMaxSize(lbDate, "Segoe UI", Font.PLAIN, 30);
         lbDate.setForeground(clrBlue);
         plHome.add(lbDate, gbc);
 
@@ -343,7 +343,7 @@ public class App extends JFrame{
                 btnChangeTheme.setText("\uD83C\uDF05 Dawn mode"); // 🌅
                 break;
         }
-        setButtonFontSize(btnChangeTheme,"SansSerif", Font.PLAIN, 18);
+        setButtonMaxSize(btnChangeTheme,"SansSerif", Font.PLAIN, 18);
         btnChangeTheme.setBackground(clrLightGray);
         btnChangeTheme.setForeground(clrPrimary);
         plHome.add(btnChangeTheme, gbc);
@@ -407,7 +407,7 @@ public class App extends JFrame{
 
         // title of the content
         txtContentTitle = new JLabel("Select an entry", JLabel.CENTER);
-        setLabelFontSize(txtContentTitle, "Segoe UI", Font.PLAIN, 33);
+        setLabelMaxSize(txtContentTitle, "Segoe UI", Font.PLAIN, 33);
         txtContentTitle.setForeground(clrPrimary);
 
         txtContent = new JTextArea();
@@ -526,11 +526,11 @@ public class App extends JFrame{
         quoteArea.setFont(new Font("Segoe UI", Font.PLAIN, 40));
 //        System.out.println(quote.length());
         if (quote.length() > 250){
-            quoteArea.setPreferredSize(new Dimension(1000, 330));
+            quoteArea.setPreferredSize(new Dimension(1100, 400));
         } else if (quote.length() > 90){
-            quoteArea.setPreferredSize(new Dimension(1000, 210));
+            quoteArea.setPreferredSize(new Dimension(1000, 230));
         } else {
-            quoteArea.setPreferredSize(new Dimension(1000, 160));
+            quoteArea.setPreferredSize(new Dimension(1000, 180));
         }
         quoteArea.setBackground(bgMain);
         quoteArea.setForeground(clrPrimary);
@@ -612,7 +612,7 @@ public class App extends JFrame{
         
         DEVELOPED BY:
         - Phomela Ferrer     | Flowchart Design
-        - Anthony Dischoso   | Algorithm Step by Step
+        - Anthony Dichoso   | Algorithm Step by Step
         - Joseph Canzana     | System Programming
         
         CONTACT:
@@ -674,6 +674,17 @@ public class App extends JFrame{
 
     private void btnLogoutAction(){
         btnLogout.addActionListener(e -> {
+            int guiIndex = entryList.getSelectedIndex();
+            if (guiIndex >= 0) {
+                // since the list is ascending need to get the last array
+                int dataIndex = lsJournalTitles.get(sessionID).size() - 1 - guiIndex;
+                checkLastEntry(dataIndex);
+
+                // Set text
+                txtContentTitle.setText(lsJournalTitles.get(sessionID).get(dataIndex).trim());
+                txtContent.setText(lsJournalContents.get(sessionID).get(dataIndex).trim());
+            }
+
             int answer = JOptionPane.showConfirmDialog(null,"Are you sure?", "Logout", JOptionPane.OK_CANCEL_OPTION);
             if(answer == JOptionPane.YES_OPTION){
                 // For developing purposes
@@ -855,7 +866,7 @@ public class App extends JFrame{
             ((DefaultListModel<String>) entryList.getModel()).add(0,newEntry);
 
             // go to the added journal
-            entryList.setSelectedIndex(lsJournalContents.get(sessionID).size());
+            entryList.setSelectedIndex(0);
         });
     }
 
@@ -964,7 +975,7 @@ public class App extends JFrame{
     private JLabel setPageTitle(String title){
         // Create the label for the home screen
         JLabel label = new JLabel(title, JLabel.CENTER);
-        setLabelFontSize(label, "Segoe UI", Font.BOLD, 40);
+        setLabelMaxSize(label, "Segoe UI", Font.BOLD, 40);
         label.setForeground(clrPrimary);
         return label;
     }
@@ -975,7 +986,7 @@ public class App extends JFrame{
         JButton button = new JButton(text);
         button.setBackground(bgSecondary);
         button.setForeground(fgColor);
-        setButtonFontSize(button, "Segoe UI", Font.PLAIN, 17);
+        setButtonMaxSize(button, "Segoe UI", Font.PLAIN, 17);
         button.setBorder(null);
 
         // In button hover
@@ -999,7 +1010,7 @@ public class App extends JFrame{
     // Inspire mood button aesthetics
     private JButton createMoodButton(String text, Color bgColor){
         JButton button = new JButton(text);
-        setButtonFontSize(button, "SansSerif", Font.BOLD, 38);
+        setButtonMaxSize(button, "SansSerif", Font.BOLD, 38);
         button.setForeground(new Color(0xFF1C1C1E));
         button.setBackground(bgColor);
         return button;
@@ -1008,7 +1019,7 @@ public class App extends JFrame{
     // Journal options button
     private JButton createJornalOptionButton(String text){
         JButton button = new JButton(text);
-        setButtonFontSize(button, "Segoe UI", Font.PLAIN, 20);
+        setButtonMaxSize(button, "Segoe UI", Font.PLAIN, 20);
         button.setForeground(clrPrimary);
         button.setBackground(bgSecondary);
         return button;
@@ -1067,7 +1078,7 @@ public class App extends JFrame{
         lastAccessedIndex = currentDataIndex;
     }
 
-    private void setLabelFontSize(JLabel label, String font, int fontStyle, int size) {
+    private void setLabelMaxSize(JLabel label, String font, int fontStyle, int size) {
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 int maxSize = (int) (size * 0.40) + size;
@@ -1085,7 +1096,7 @@ public class App extends JFrame{
         });
     }
 
-    private void setButtonFontSize(JButton button, String font, int fontStyle, int size) {
+    private void setButtonMaxSize(JButton button, String font, int fontStyle, int size) {
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 int maxSize = (int) (size * 0.40) + size;

@@ -120,7 +120,7 @@ public class Login extends JFrame {
         setNavigationBar();
 
         // Footer
-        JLabel lbFooter = new JLabel("Ferrer - Canzana - Dischoso  |  ReflectNote © 2025", JLabel.CENTER);
+        JLabel lbFooter = new JLabel("Ferrer - Canzana - Dichoso  |  ReflectNote © 2025", JLabel.CENTER);
         lbFooter.setForeground(clrTertiary);
         setLabelFontSize(lbFooter, "SansSerif", Font.PLAIN, 12);
         loginFooterForm.add(lbFooter, BorderLayout.CENTER);
@@ -410,6 +410,8 @@ public class Login extends JFrame {
             lsJournalTitles.add(new ArrayList<>());
             lsJournalEntriesDate.add(new ArrayList<>());
 
+            JOptionPane.showMessageDialog(null, "Your Account is successfully registered", "Successful", JOptionPane.INFORMATION_MESSAGE);
+
             // Direct the user to the login form
             CardLayout cl = (CardLayout) loginMainForm.getLayout();
             cl.show(loginMainForm, "LOGIN");
@@ -473,19 +475,63 @@ public class Login extends JFrame {
     }
 
     private JTextField createContentTextField(){
-        JTextField text = new JTextField();
-        setTextFieldSize(text, "Segoe UI", Font.PLAIN, 30, 450, 60);
-        text.setBorder(BorderFactory.createLineBorder(clrTertiary,1));
-        text.setBackground(bgMain);
-        return text;
+        JTextField txtField = new JTextField();
+        int fontSize = 30;
+        int ySize = 450;
+        int xSize = 60;
+
+        // For full size window
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int maxFontSize = (int) (fontSize * 0.40) + fontSize;
+                int maxFieldSizeX = (int) (xSize * 0.40) + xSize;
+                int maxFieldSizeY = (int) (ySize * 0.40) + ySize;
+
+                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                    // Window is maximized
+                    txtField.setFont(new Font("Segoe UI", Font.PLAIN, maxFontSize));
+                    txtField.setPreferredSize(new Dimension(maxFieldSizeY, maxFieldSizeX));
+
+                } else {
+                    // Window is in normal state
+                    txtField.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+                    txtField.setPreferredSize(new Dimension(ySize, xSize));
+                }
+            }
+        });
+
+        txtField.setBorder(BorderFactory.createLineBorder(clrTertiary,1));
+        txtField.setBackground(bgMain);
+        return txtField;
     }
 
     private JPasswordField createContentPasswordField(){
-        JPasswordField password = new JPasswordField();
-        setPasswordFieldSize(password, "Segoe UI", Font.PLAIN, 30, 450, 60);
-        password.setBorder(BorderFactory.createLineBorder(clrTertiary,1));
-        password.setBackground(bgMain);
-        return password;
+        JPasswordField pwdField = new JPasswordField();
+
+        int fontSize = 30;
+        int ySize = 450;
+        int xSize = 60;
+
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int maxFontSize = (int) (fontSize * 0.40) + fontSize;
+                int maxFieldSizeX = (int) (xSize * 0.40) + xSize;
+                int maxFieldSizeY = (int) (ySize * 0.40) + ySize;
+
+                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+                    // Window is maximized
+                    pwdField.setFont(new Font("Segoe UI", Font.PLAIN, maxFontSize));
+                    pwdField.setPreferredSize(new Dimension(maxFieldSizeY, maxFieldSizeX));
+                } else {
+                    // Window is in normal state
+                    pwdField.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+                    pwdField.setPreferredSize(new Dimension(ySize, xSize));
+                }
+            }
+        });
+        pwdField.setBorder(BorderFactory.createLineBorder(clrTertiary,1));
+        pwdField.setBackground(bgMain);
+        return pwdField;
     }
 
     private int setAdminAccount(String username, String password){
@@ -532,46 +578,6 @@ public class Login extends JFrame {
                 } else {
                     // Window is in normal state
                     button.setFont(new Font(font, fontStyle, size));
-                }
-            }
-        });
-    }
-
-    private void setTextFieldSize(JTextField txtField, String font, int fontStyle, int fontSize, int ySize, int xSize) {
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                int maxFontSize = (int) (fontSize * 0.40) + fontSize;
-                int maxFieldSizeX = (int) (xSize * 0.40) + xSize;
-                int maxFieldSizeY = (int) (ySize * 0.40) + ySize;
-
-                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
-                    // Window is maximized
-                    txtField.setFont(new Font(font, fontStyle, maxFontSize));
-                    txtField.setPreferredSize(new Dimension(maxFieldSizeY, maxFieldSizeX));
-                } else {
-                    // Window is in normal state
-                    txtField.setFont(new Font(font, fontStyle, fontSize));
-                    txtField.setPreferredSize(new Dimension(ySize, xSize));
-                }
-            }
-        });
-    }
-
-    private void setPasswordFieldSize(JPasswordField pwdField, String font, int fontStyle, int fontSize, int ySize, int xSize) {
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                int maxFontSize = (int) (fontSize * 0.40) + fontSize;
-                int maxFieldSizeX = (int) (xSize * 0.40) + xSize;
-                int maxFieldSizeY = (int) (ySize * 0.40) + ySize;
-
-                if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
-                    // Window is maximized
-                    pwdField.setFont(new Font(font, fontStyle, maxFontSize));
-                    pwdField.setPreferredSize(new Dimension(maxFieldSizeY, maxFieldSizeX));
-                } else {
-                    // Window is in normal state
-                    pwdField.setFont(new Font(font, fontStyle, fontSize));
-                    pwdField.setPreferredSize(new Dimension(ySize, xSize));
                 }
             }
         });
