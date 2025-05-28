@@ -100,15 +100,21 @@ public class Login extends JFrame {
         if(!initialized) {
             int currentId = setAdminAccount("Admin", "12345678");
             addAdminJournalContent(currentId, "2025-04-28", "Our first proposal is Rejected!", "4-28-2025 \n\n The project that was first declined is Readability and cipher which is cool project however we though t tahat the project would be just a CLI and maybe being rejected wasn't that bad after all.");
-            addAdminJournalContent(currentId, "2025-05-17", "It's close to being finish", "2025-05-17 \n\n As of writing this, developers are currently writing the admin account to mimick what it would look like to have an entry on different days.");
+            addAdminJournalContent(currentId, "2025-05-17", "About to be done", "2025-05-17 \n\n As of writing this, developers are currently writing the admin account to mimick what it would look like to have an entry on different days.");
             addAdminJournalContent(currentId, "2025-05-21", "Added a \"Responsive design\"", "2025-05-21 \n\n This is during exam day exactly 11:27 as of updating the admin account and added a responsive like feature to make the app clean like it would get the max size of window and if the current app window is equal to that then change the font size by 40%(as of writing maybe it would change)");
+            addAdminJournalContent(currentId, "2025-05-24", "System is don", "2025-05-24 \n\n The system is Complete \n Start Date: April 29 2025\n Completion Date: May 24 2025 \n Average Development Time per Day: 5 hours  Estimated overall: ~120 hours\n \"I will give thanks to you, Lord, with all my heart; I will tell of all your wonderful deeds.\" \n– Psalm 9:1\n This verse serves as a powerful reminder to remain thankful. As we close this chapter, we reflect on the dedication and grace that made this possible. This system is not just a technical achievement, but a reflection of purpose, perseverance, and growth.");
 
 
             currentId = setAdminAccount("Canzana", "LifeIsFun");
             addAdminJournalContent(currentId, "2024-04-17", "EcoSense: Capstone Project Defended!", "2024-04-17 \n\n The project that was not in option on three accepted title, I'm not even agreeing to do AI base trash bin. Since creating AI base trash bin would be close to impossible as a shs. But my groupmates is much more ambitious, and thank to that we have a project that gave us a project to be proud of.");
 
-//            setAdminAccount("Ferrer", "12345678");
-//            setAdminAccount("Dischoso", "12345678");
+            addAdminJournalContent(currentId, "2025-05-26", "Why I Picked CompSci", "2025-05-26 \n\n I pick Computer science not because there's no option, I'm here because I genuinely enjoy not just programming but also math, calculus and theory. It's not just about maintaining but about how much we can push and create an efficient solution not just in programming but our general problem solving thinking. \n Many people ask why not IT or CompE? IT grads become sys admins, tech support, network engineers; CS grads become AI engineers, Data scientist, or researchers;And CompE grad become Embedded Systems Engineer, Chip Designer, Firmware Engineer. While they all can be software engineer, I kinda like the skill set and job of cs although I also like the compE hardware but I would probably study it in my free time just cuase it 's cool.");
+
+            currentId = setAdminAccount("Ferrer", "12345678");
+            addAdminJournalContent(currentId, "2025-05-26", "PADAYON", "Alam kong malayo pa, but i’m willing to wait, be patient okay? because everything has the right moment. kaya wag tayong susuko ha?");
+
+            currentId = setAdminAccount("Dichoso", "88888888");
+            addAdminJournalContent(currentId, "2025-05-26", "SANA", "Sana pumasa this Defense");
             initialized = true;
         }
 
@@ -381,7 +387,7 @@ public class Login extends JFrame {
             String confirmPassword = new String(pwdConfirm.getPassword());
 
             // Check if all form is filled up
-            if (username.isEmpty() || password.isEmpty()) {
+            if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please complete all fields to register.", "Incomplete Form", JOptionPane.WARNING_MESSAGE);
                 return;
             }

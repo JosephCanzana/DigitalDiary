@@ -85,6 +85,7 @@ public class App extends JFrame{
     };
 
     String[] qtGrateful = {
+            "\"When one has a grateful heart, life is so beautiful. \n - Dichoso\"",
             "\"Give thanks to the Lord, for he is good; his love endures forever.\" \n– 1 Chronicles 16:34",
             "\"I will give thanks to you, Lord, with all my heart; I will tell of all your wonderful deeds.\" \n– Psalm 9:1",
             "\"Give thanks in all circumstances; for this is God’s will for you in Christ Jesus.\" \n– 1 Thessalonians 5:18",
@@ -97,6 +98,7 @@ public class App extends JFrame{
     };
 
     String[] qtCalm = {
+            "\"The chaos doesn't end, you just become calm. - Dichoso\"",
             "\"Peace I leave with you; my peace I give you. Do not let your hearts be troubled and do not be afraid.\" \n– John 14:27",
             "\"Be still, and know that I am God.\" \n– Psalm 46:10",
             "\"In peace I will lie down and sleep, for you alone, Lord, make me dwell in safety.\" \n– Psalm 4:8",
@@ -109,6 +111,7 @@ public class App extends JFrame{
     };
 
     String[] qtHopeful = {
+            "\"The future belongs to those who believe in the beauty of their dreams - Dichoso\"",
             "\"For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.\" \n– Jeremiah 29:11",
             "\"But those who hope in the Lord will renew their strength. They will soar on wings like eagles.\" \n– Isaiah 40:31",
             "\"May the God of hope fill you with all joy and peace as you trust in him.\" \n– Romans 15:13",
@@ -146,6 +149,7 @@ public class App extends JFrame{
     };
 
     String[] qtOverwhelmed = {
+            "\"It's okay not to be okay\"",
             "\"Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the Lord your God is with you wherever you go.\" – Job 1:9",
             "\"Come to me, all you who are weary and burdened, and I will give you rest.\" \n– Matthew 11:28",
             "\"Cast your burden on the Lord, and he will sustain you.\" \n– Psalm 55:22",
@@ -417,6 +421,7 @@ public class App extends JFrame{
         txtContent.setForeground(clrSecondary);
         txtContent.setLineWrap(true); // makes a new line after reaching end (wrap)
         txtContent.setWrapStyleWord(true); // wrap word by word
+        txtContent.setCaretColor(clrPrimary);
         txtContent.setEnabled(false);
         txtContent.setText("Please select a journal entry to view or edit.");
 
@@ -494,26 +499,15 @@ public class App extends JFrame{
         // Determine quote based on mood
         String quote = "";
         Random random = new Random();
-        switch (mood) {
-            case "Grateful":
-                quote = qtGrateful[random.nextInt(qtGrateful.length)];
-                break;
-            case "Calm":
-                quote = qtCalm[random.nextInt(qtCalm.length)];
-                break;
-            case "Hopeful":
-                quote = qtHopeful[random.nextInt(qtHopeful.length)];
-                break;
-            case "Down":
-                quote = qtDown[random.nextInt(qtDown.length)];
-                break;
-            case "Overthinking":
-                quote = qtOverthinking[random.nextInt(qtOverthinking.length)];
-                break;
-            case "Overwhelmed":
-                quote = qtOverwhelmed[random.nextInt(qtOverwhelmed.length)];
-                break;
-        }
+        quote = switch (mood) {
+            case "Grateful" -> qtGrateful[random.nextInt(qtGrateful.length)];
+            case "Calm" -> qtCalm[random.nextInt(qtCalm.length)];
+            case "Hopeful" -> qtHopeful[random.nextInt(qtHopeful.length)];
+            case "Down" -> qtDown[random.nextInt(qtDown.length)];
+            case "Overthinking" -> qtOverthinking[random.nextInt(qtOverthinking.length)];
+            case "Overwhelmed" -> qtOverwhelmed[random.nextInt(qtOverwhelmed.length)];
+            default -> quote;
+        };
 
         JLabel qtTitle = new JLabel(mood, JLabel.CENTER);
         qtTitle.setFont(new Font("Segoe UI", Font.BOLD, 60));
@@ -608,7 +602,7 @@ public class App extends JFrame{
         • Course: Intermediate Programming (Final Project)
         • Year: 2024–2025
         • Institution: Holy Cross College
-        • Professor: Sir. Jayson Ramirez
+        • Professor: Sir. Jayson R. Francisco
         
         DEVELOPED BY:
         - Phomela Ferrer     | Flowchart Design
@@ -809,9 +803,7 @@ public class App extends JFrame{
             }
 
             dispose();
-            java.awt.EventQueue.invokeLater(()->{
-                new App();
-            });
+            java.awt.EventQueue.invokeLater(App::new);
 
         });
     }
@@ -993,7 +985,7 @@ public class App extends JFrame{
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 button.setFont(new Font("Segoe UI", Font.BOLD, button.getFont().getSize() + 1));
-                if(text == "Logout"){
+                if(text.equals("Logout")){
                     button.setForeground(clrRed);
                 } else {
                     button.setForeground(clrBlue);
@@ -1114,8 +1106,6 @@ public class App extends JFrame{
 
     // Go to login first
     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            new Login();
-        });
+        EventQueue.invokeLater(Login::new);
     }
 }
